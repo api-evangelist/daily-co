@@ -5,7 +5,7 @@ provider: Daily
 providerId: daily-co
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Realtime
 - WebRTC
@@ -15,21 +15,40 @@ tags:
 - Rate Limiting
 - Quotas
 - Throttling
-description: Placeholder rate-limit artifact for Daily. Replace with real limits once researched.
-notes: Initial scaffold — limits have not yet been reconciled.
+description: Daily REST API rate limits, reconciled from the public Daily docs reference.
+notes: >-
+  Daily applies different rate limits per endpoint family. 429 responses include a
+  Retry-After header. Custom raises are available on Pay-As-You-Go and higher plans
+  via Daily support.
 sources:
-- https://www.daily.co/
+- https://docs.daily.co/reference/rest-api
+- https://www.daily.co/pricing/
 responseCodes:
   throttled: 429
 limits:
-- name: Default
+- name: Standard endpoints
   scope: account
-  metric: varies
-  limit: see provider documentation
-  notes: Pending reconciliation.
+  metric: requests
+  limit: 20
+  timeFrame: 1s
+  notes: ~100 requests per 5-second sliding window for most REST endpoints.
+- name: Listings and deletions
+  scope: account
+  metric: requests
+  limit: 2
+  timeFrame: 1s
+  notes: List endpoints and DELETE operations (e.g., GET /rooms, DELETE /rooms/:name).
+- name: Recording / live-streaming starts
+  scope: account
+  metric: requests
+  limit: 1
+  timeFrame: 1s
+  notes: POST endpoints that start recordings or live streams.
 policies:
 - name: Backoff Strategy
-  description: Clients should implement exponential backoff with jitter and honor any Retry-After header.
+  description: Honor Retry-After on 429 responses; use exponential backoff with jitter for retries.
+- name: HTTPS Required
+  description: All requests must be made over HTTPS; HTTP requests are rejected.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

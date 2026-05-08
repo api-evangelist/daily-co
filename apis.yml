@@ -3,7 +3,7 @@ url: https://raw.githubusercontent.com/api-evangelist/daily-co/refs/heads/main/a
 name: Daily
 x-type: company
 description: >-
-  Daily provides WebRTC video and audio infrastructure for developers — APIs for rooms, recordings, transcripts, and Daily Bots (voice AI).
+  Daily provides WebRTC video and audio infrastructure for developers — REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React Native and Flutter.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Realtime
@@ -11,13 +11,70 @@ tags:
   - Video
   - Audio
   - SDK
+  - Voice AI
+  - Recording
+  - Transcription
 created: '2026-05-08'
 modified: '2026-05-08'
 specificationVersion: '0.19'
-apis: []
+apis:
+  - aid: daily-co:rest-api
+    name: Daily REST API
+    description: >-
+      REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming and Daily Bots sessions. Authenticated with a Bearer API key.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.daily.co/reference/rest-api
+    baseURL: https://api.daily.co/v1
+    tags:
+      - REST
+      - Rooms
+      - Recordings
+      - Transcripts
+      - Meetings
+      - Webhooks
+      - Dial-Out
+      - Live Streaming
+    properties:
+      - type: Documentation
+        url: https://docs.daily.co/reference/rest-api
+      - type: GettingStarted
+        url: https://docs.daily.co/guides/products/getting-started
+      - type: Authentication
+        url: https://docs.daily.co/reference/rest-api#authentication
+      - type: Webhooks
+        url: https://docs.daily.co/reference/rest-api/webhooks
+      - type: SDK
+        url: https://docs.daily.co/reference
+  - aid: daily-co:pipecat-cloud
+    name: Pipecat Cloud (Daily Bots) API
+    description: >-
+      REST API and SDKs for deploying and managing voice AI agents built with the open-source Pipecat framework on Daily's infrastructure.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.pipecat.daily.co/
+    baseURL: https://api.pipecat.daily.co/
+    tags:
+      - REST
+      - Voice AI
+      - Agents
+      - Pipecat
+    properties:
+      - type: Documentation
+        url: https://docs.pipecat.daily.co/
+      - type: SourceCode
+        url: https://github.com/pipecat-ai/pipecat
 common:
   - type: Website
     url: https://www.daily.co/
+  - type: Documentation
+    url: https://docs.daily.co/
+  - type: Pricing
+    url: https://www.daily.co/pricing/
+  - type: Blog
+    url: https://www.daily.co/blog/
+  - type: GitHub
+    url: https://github.com/daily-co
+  - type: StatusPage
+    url: https://status.daily.co/
   - type: Plans
     url: plans/daily-co-plans-pricing.yml
   - type: RateLimits

@@ -5,7 +5,7 @@ provider: Daily
 providerId: daily-co
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Realtime
 - WebRTC
@@ -13,29 +13,96 @@ tags:
 - Audio
 - SDK
 - Plans
-description: Placeholder plans/pricing artifact for Daily. Replace with real published pricing once
-  the pipeline researches the provider's plans page.
-notes: Initial scaffold — plans/pricing have not yet been reconciled.
+- Pricing
+description: >-
+  Daily monetises three product surfaces — the Video SDK (real-time video/audio),
+  Pipecat Cloud (voice AI agents) and WebRTC infrastructure (raw SFU / TURN). All
+  three are usage-based with a free monthly allotment on the Video SDK and
+  custom-priced enterprise terms.
+notes: >-
+  Daily lists usage-based pricing only on its public pricing page; per-minute
+  unit prices are quoted per product page or via sales. The 10,000 free Video
+  SDK minutes/month figure is taken directly from daily.co/pricing.
 sources:
-- https://www.daily.co/
+- https://www.daily.co/pricing/
+- https://www.daily.co/pricing/video-sdk/
+- https://www.daily.co/pricing/pipecat-cloud/
 plans:
-- id: daily-co-default
-  name: To Be Reconciled
-  type: enterprise
-  description: Initial scaffold; replace with provider plan tiers once pricing is reconciled.
+- id: daily-video-sdk-free
+  name: Video SDK — Free Tier
+  type: free
+  description: First 10,000 participant-minutes per month at no charge on the Video SDK.
   entries:
-  - label: API Access
-    name: api_access
-    type: flat
+  - label: Included participant-minutes
+    name: included_minutes
+    type: tier
+    metric: participant-minutes/month
+    limit: 10000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 0
+    userMultiplied: false
+- id: daily-video-sdk-payg
+  name: Video SDK — Pay-As-You-Go
+  type: payAsYouGo
+  description: Usage-based per-minute billing for video/audio above the free tier; volume discounts at scale.
+  entries:
+  - label: Participant-minutes
+    name: video_minutes
+    type: usage
+    metric: participant-minutes
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: see https://www.daily.co/pricing/video-sdk/
+    userMultiplied: false
+- id: daily-pipecat-cloud
+  name: Pipecat Cloud
+  type: payAsYouGo
+  description: Usage-based pricing for Pipecat-based voice AI agents on Daily infrastructure.
+  entries:
+  - label: Agent runtime
+    name: agent_runtime
+    type: usage
+    metric: agent-minutes
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: see https://www.daily.co/pricing/pipecat-cloud/
+    userMultiplied: false
+- id: daily-webrtc-infra
+  name: WebRTC Infrastructure
+  type: payAsYouGo
+  description: Raw WebRTC infrastructure (SFU, TURN) with usage-based pricing and discounts at scale.
+  entries:
+  - label: WebRTC usage
+    name: webrtc_usage
+    type: usage
     metric: varies
     limit: -1
     timeFrame: usage
     geo: global
     unit: 1
-    price: see https://www.daily.co/
+    price: contact sales
     userMultiplied: false
-  elements:
-  - name: Pending Reconciliation
+- id: daily-enterprise
+  name: Enterprise
+  type: enterprise
+  description: Custom commitments, SLAs and discounted unit rates. Negotiated via Daily sales.
+  entries:
+  - label: Custom contract
+    name: enterprise_contract
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: annual
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
