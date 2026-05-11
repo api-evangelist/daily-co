@@ -81,6 +81,29 @@ common:
     url: rate-limits/daily-co-rate-limits.yml
   - type: FinOps
     url: finops/daily-co-finops.yml
+  - type: Integrations
+    url: https://www.daily.co/partners/
+integrations:
+  - name: AWS Marketingplace
+  - name: Azure
+  - name: google-logo
+  - name: OpenAI
+  - name: nvidia-logo
+  - name: Assembly AI
+  - name: Deepgram
+  - name: Speechmatics
+  - name: Gladia
+  - name: Krisp
+  - name: Cartesia
+  - name: ElevenLabs
+  - name: Inworld
+  - name: Rime
+  - name: Tavus
+  - name: Cerebrium
+  - name: Cekura
+  - name: Coval
+  - name: Modal
+  - name: Together AI
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
