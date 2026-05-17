@@ -1,7 +1,7 @@
 aid: daily-co
 url: https://raw.githubusercontent.com/api-evangelist/daily-co/refs/heads/main/apis.yml
 name: Daily
-x-type: company
+kind: company
 description: >-
   Daily provides WebRTC video and audio infrastructure for developers — REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React Native and Flutter.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
