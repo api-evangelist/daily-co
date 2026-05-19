@@ -63,6 +63,8 @@ apis:
       - type: SourceCode
         url: https://github.com/pipecat-ai/pipecat
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/dailyco
   - type: Website
     url: https://www.daily.co/
   - type: Documentation
