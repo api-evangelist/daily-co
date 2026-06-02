@@ -1,0 +1,118 @@
+aid: daily-co:asyncapi-review
+name: Daily.co AsyncAPI Review
+kind: review
+date: '2026-05-29'
+reviewer: API Evangelist
+subject: Daily.co public WebSocket / event-driven API surface
+verdict: no-public-websocket-api
+summary: >-
+  Daily.co does not expose a documented, public WebSocket endpoint that
+  developers can connect to directly. Its event-driven surface is delivered
+  exclusively through (1) HTTP webhooks (server-to-server POST callbacks) and
+  (2) SDK-side event listeners (daily-js, daily-react, react-native-daily-js,
+  iOS/Android/Flutter SDKs) that abstract an internal WebRTC + WebSocket
+  transport developers are not expected to address directly. Because there is
+  no documented wss:// endpoint, no documented WebSocket message schema, and no
+  documented WebSocket auth / subprotocol contract, an AsyncAPI 2.6 spec that
+  faithfully describes a Daily-hosted channel cannot be produced without
+  fabrication. An AsyncAPI 2.6 spec was therefore NOT generated.
+findings:
+  - id: webhooks-only
+    label: Realtime delivery is HTTP webhooks
+    detail: >-
+      Daily delivers room/meeting/recording/transcript/streaming/dial-in/
+      dial-out/call-transfer/batch-processor events as HTTP POST callbacks to a
+      developer-provided URL, not over a WebSocket channel. Webhook delivery is
+      acknowledged via 2xx status. This is a request/response webhook contract,
+      better described by an OpenAPI callback or AsyncAPI HTTP binding, not a
+      WebSocket binding.
+    documented_events:
+      - meeting.started
+      - meeting.ended
+      - participant.joined
+      - participant.left
+      - waiting-participant.joined
+      - waiting-participant.left
+      - recording.started
+      - recording.ready-to-download
+      - recording.error
+      - transcript.started
+      - transcript.ready-to-download
+      - transcript.error
+      - streaming.started
+      - streaming.updated
+      - streaming.ended
+      - streaming.error
+      - batch-processor.job-finished
+      - batch-processor.error
+      - dialout.connected
+      - dialout.answered
+      - dialout.stopped
+      - dialout.warning
+      - dialout.error
+      - dialin.ready
+      - dialin.connected
+      - dialin.stopped
+      - dialin.warning
+      - dialin.error
+      - calltransfer.triggered
+      - calltransfer.initiated
+      - calltransfer.answered
+      - calltransfer.completed
+  - id: sdk-event-listeners
+    label: Client realtime events are SDK-only
+    detail: >-
+      The daily-js client exposes events through an EventEmitter interface
+      using on(), once(), and off(). These events (e.g., joined-meeting,
+      participant-joined, track-started, app-message, transcription-message,
+      network-quality-change) are dispatched by the SDK after it negotiates
+      a session with Daily's signaling and media infrastructure. The
+      underlying transport is not specified as a public WebSocket interface
+      and is not documented with a connectable URL or message schema.
+  - id: webrtc-transport
+    label: Media/signaling transport is WebRTC, not a public WS API
+    detail: >-
+      Daily and Pipecat Cloud (Daily Bots) describe their realtime transport
+      as WebRTC. Pipecat Cloud notes "Built-in WebRTC" transport and directs
+      developers to start sessions via REST or the Python SDK. No wss://
+      endpoint is published for external clients.
+  - id: diagnostic-ws-only
+    label: WebSocket references are diagnostic, not endpoint contracts
+    detail: >-
+      The only WebSocket-named symbols in the public reference are SDK
+      diagnostic methods such as testWebsocketConnectivity() and
+      abortTestWebsocketConnectivity(). These probe connectivity to Daily's
+      infrastructure; they do not constitute a documented developer-facing
+      WebSocket API.
+pages_checked:
+  - url: https://docs.daily.co
+    result: No public WebSocket endpoint mentioned. References WebRTC vs.
+      WebSockets only as a tutorial topic.
+  - url: https://docs.daily.co/reference
+    result: WebSocket references are limited to SDK diagnostic helpers
+      (testWebsocketConnectivity / abortTestWebsocketConnectivity). No wss://
+      endpoints documented.
+  - url: https://docs.daily.co/reference/rest-api/webhooks
+    result: Confirms event delivery is HTTP POST webhooks. 34 documented event
+      types across meeting, participant, recording, transcription, streaming,
+      batch-processor, dial-in, dial-out, and call-transfer categories.
+  - url: https://docs.daily.co/reference/daily-js/events
+    result: Daily-JS event surface is exposed via EventEmitter (on/once/off).
+      No wss:// URL or WebSocket message schema documented.
+  - url: https://docs.pipecat.daily.co/
+    result: Redirects (301) to https://docs.pipecat.ai/deployment/pipecat-cloud/introduction.
+  - url: https://docs.pipecat.ai/deployment/pipecat-cloud/introduction
+    result: Pipecat Cloud uses Built-in WebRTC transport. Sessions started via
+      REST or Python SDK. No public wss:// endpoint documented.
+  - url: https://docs.daily.co/guides/products/live-streaming
+    result: HTTP 404 at the time of review.
+  - url: https://docs.daily.co/reference/rtvi
+    result: HTTP 404 at the time of review.
+recommendation: >-
+  Document Daily's event-driven surface as an OpenAPI callbacks spec (webhook
+  receiver contract) rather than AsyncAPI. If Daily later publishes a public
+  wss:// endpoint (for example for transcript streaming or Pipecat Cloud
+  realtime control), revisit and produce an AsyncAPI 2.6 spec at that time.
+artifacts_produced:
+  spec: null
+  review: asyncapi/review.yml
