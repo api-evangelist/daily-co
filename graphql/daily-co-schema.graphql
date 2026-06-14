@@ -1,0 +1,866 @@
+"""
+Daily.co GraphQL Schema
+Conceptual schema derived from the Daily REST API (https://docs.daily.co/reference/rest-api)
+Covers rooms, meetings, participants, recordings, transcripts, live streaming, SIP/dial-in,
+webhooks, metrics, and session management.
+"""
+
+scalar DateTime
+scalar JSON
+scalar URL
+
+# ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum RoomPrivacy {
+  PUBLIC
+  PRIVATE
+  ORG
+}
+
+enum RecordingStatus {
+  IDLE
+  RECORDING
+  FINISHED
+  ERRORED
+}
+
+enum RecordingType {
+  CLOUD
+  LOCAL
+  RAW_TRACKS
+}
+
+enum ParticipantStatus {
+  JOINED
+  LEFT
+  WAITING
+}
+
+enum LiveStreamStatus {
+  IDLE
+  STARTING
+  STARTED
+  STOPPING
+  STOPPED
+  ERRORED
+}
+
+enum SIPCallStatus {
+  PENDING
+  DIALING
+  CONNECTED
+  DISCONNECTED
+  FAILED
+}
+
+enum WebhookEventType {
+  MEETING_STARTED
+  MEETING_ENDED
+  PARTICIPANT_JOINED
+  PARTICIPANT_LEFT
+  RECORDING_STARTED
+  RECORDING_STOPPED
+  RECORDING_READY
+  TRANSCRIPT_READY
+  LIVE_STREAM_STARTED
+  LIVE_STREAM_STOPPED
+  SIP_CALL_ENDED
+  DIAL_OUT_CONNECTED
+  DIAL_OUT_DISCONNECTED
+  APP_MESSAGE
+}
+
+enum Codec {
+  VP8
+  VP9
+  H264
+  H265
+  AV1
+  OPUS
+}
+
+enum Resolution {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+  ULTRA
+}
+
+enum StreamLayout {
+  DEFAULT
+  SINGLE_PARTICIPANT
+  ACTIVE_PARTICIPANT
+  PORTRAIT
+  CUSTOM
+}
+
+# ─── Room Types ──────────────────────────────────────────────────────────────
+
+"""Configuration options for a Daily room."""
+type RoomConfig {
+  maxParticipants: Int
+  startAudioOff: Boolean
+  startVideoOff: Boolean
+  enableChat: Boolean
+  enableKnocking: Boolean
+  enableScreenShare: Boolean
+  enableRecording: RecordingType
+  enableTranscription: Boolean
+  enableLiveStreaming: Boolean
+  enablePrejoinUi: Boolean
+  enableNetworkUi: Boolean
+  enablePeopleUi: Boolean
+  expiry: DateTime
+  nbfTime: DateTime
+  ejectAtRoomExpiry: Boolean
+  ejectAfterElapsed: Int
+  autojoin: Boolean
+  lang: String
+  geo: String
+  region: String
+}
+
+"""Core room object returned by the Daily REST API."""
+type Room {
+  id: ID!
+  name: String!
+  apiCreated: Boolean!
+  privacy: RoomPrivacy!
+  url: URL!
+  createdAt: DateTime!
+  config: RoomConfig!
+  domainConfig: DomainAccess
+  tokenConfig: RoomToken
+}
+
+"""Detailed room object with expanded meeting and participant data."""
+type RoomDetails {
+  id: ID!
+  name: String!
+  apiCreated: Boolean!
+  privacy: RoomPrivacy!
+  url: URL!
+  createdAt: DateTime!
+  config: RoomConfig!
+  activeMeeting: MeetingDetails
+  currentParticipants: [ParticipantDetails!]
+  recordings: [RecordingDetails!]
+}
+
+"""Domain-level access control settings applied to a room."""
+type DomainAccess {
+  hipaa: Boolean
+  sfu_impl: String
+  signaling_impl: String
+  max_api_rooms: Int
+  enable_advanced_chat: Boolean
+  enable_breakout_rooms: Boolean
+}
+
+"""A meeting token granting scoped access to a Daily room."""
+type RoomToken {
+  token: String!
+  roomName: String!
+  properties: TokenProperties!
+  isOwner: Boolean!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+"""Properties embedded in a Daily meeting token (JWT claims)."""
+type TokenProperties {
+  roomName: String
+  isOwner: Boolean
+  userId: String
+  userName: String
+  enableScreenShare: Boolean
+  startVideoOff: Boolean
+  startAudioOff: Boolean
+  enableRecording: RecordingType
+  expiry: DateTime
+  nbfTime: DateTime
+  ejectAtTokenExpiry: Boolean
+  ejectAfterElapsed: Int
+  closeTabOnExit: Boolean
+  redirectOnMeetingExit: String
+  lang: String
+}
+
+# ─── Meeting Types ───────────────────────────────────────────────────────────
+
+"""A Daily meeting session."""
+type Meeting {
+  id: ID!
+  roomName: String!
+  startTime: DateTime!
+  endTime: DateTime
+  duration: Int
+  ongoing: Boolean!
+  maxParticipants: Int!
+  participants: [Participant!]
+}
+
+"""Expanded meeting with full participant and recording details."""
+type MeetingDetails {
+  id: ID!
+  roomName: String!
+  startTime: DateTime!
+  endTime: DateTime
+  duration: Int
+  ongoing: Boolean!
+  maxParticipants: Int!
+  participants: [ParticipantDetails!]!
+  recordings: [RecordingDetails!]
+  transcript: TranscriptDetails
+  liveStream: LiveStreamDetails
+  metrics: MeetingMetrics
+}
+
+"""A meeting token used to join a Daily room with specific permissions."""
+type MeetingToken {
+  token: String!
+  roomName: String!
+  userId: String
+  userName: String
+  isOwner: Boolean!
+  expiresAt: DateTime
+}
+
+# ─── Participant Types ────────────────────────────────────────────────────────
+
+"""A participant in a Daily meeting (summary)."""
+type Participant {
+  id: ID!
+  userId: String
+  userName: String
+  joinedAt: DateTime!
+  leftAt: DateTime
+  duration: Int
+  status: ParticipantStatus!
+}
+
+"""Full participant object with media state and metrics."""
+type ParticipantDetails {
+  id: ID!
+  userId: String
+  userName: String
+  joinedAt: DateTime!
+  leftAt: DateTime
+  duration: Int
+  status: ParticipantStatus!
+  video: ParticipantVideo!
+  audio: ParticipantAudio!
+  screenShare: ParticipantScreenShare!
+  metrics: ParticipantMetrics
+  networkMetrics: NetworkMetrics
+}
+
+"""Video state for a meeting participant."""
+type ParticipantVideo {
+  enabled: Boolean!
+  codec: Codec
+  resolution: Resolution
+  bandwidth: Bandwidth
+  sendBitrate: Float
+  recvBitrate: Float
+}
+
+"""Audio state for a meeting participant."""
+type ParticipantAudio {
+  enabled: Boolean!
+  codec: Codec
+  sendBitrate: Float
+  recvBitrate: Float
+  muteCount: Int
+}
+
+"""Screen share state for a meeting participant."""
+type ParticipantScreenShare {
+  active: Boolean!
+  codec: Codec
+  resolution: Resolution
+  bandwidth: Bandwidth
+  sendBitrate: Float
+}
+
+# ─── Recording Types ──────────────────────────────────────────────────────────
+
+"""A recording associated with a Daily meeting."""
+type Recording {
+  id: ID!
+  meetingId: String
+  roomName: String!
+  startTs: DateTime!
+  status: RecordingStatus!
+  maxParticipants: Int
+  duration: Int
+  recordingType: RecordingType!
+  s3Config: RecordingS3Config
+}
+
+"""Recording with download URL and layout details."""
+type RecordingDetails {
+  id: ID!
+  meetingId: String
+  roomName: String!
+  startTs: DateTime!
+  endTs: DateTime
+  status: RecordingStatus!
+  maxParticipants: Int
+  duration: Int
+  recordingType: RecordingType!
+  downloadUrl: URL
+  thumbnailUrl: URL
+  layout: RecordingLayout
+  s3Config: RecordingS3Config
+  tracks: [String!]
+}
+
+"""Layout configuration for a composite cloud recording."""
+type RecordingLayout {
+  preset: StreamLayout!
+  maxCamStreams: Int
+  backgroundColor: String
+  composition: StreamComposition
+}
+
+"""S3 bucket configuration for cloud recording storage."""
+type RecordingS3Config {
+  bucketName: String!
+  bucketRegion: String!
+  assumeRoleArn: String
+  allowApiAccess: Boolean
+  allowStreamingFromBucket: Boolean
+}
+
+# ─── Transcript Types ─────────────────────────────────────────────────────────
+
+"""A transcript produced from a Daily meeting recording."""
+type Transcript {
+  id: ID!
+  meetingId: String
+  roomName: String!
+  status: String!
+  startTs: DateTime!
+  endTs: DateTime
+  language: String
+}
+
+"""Transcript with full text and word-level timing."""
+type TranscriptDetails {
+  id: ID!
+  meetingId: String
+  roomName: String!
+  status: String!
+  startTs: DateTime!
+  endTs: DateTime
+  language: String
+  segments: [TranscriptSegment!]
+  downloadUrl: URL
+}
+
+"""A timed segment of transcript text, attributed to a speaker."""
+type TranscriptSegment {
+  id: ID!
+  participantId: String
+  userName: String
+  startTime: Float!
+  endTime: Float!
+  text: String!
+  words: [TranscriptWord!]
+}
+
+"""A single word within a transcript segment with timing info."""
+type TranscriptWord {
+  word: String!
+  startTime: Float!
+  endTime: Float!
+  confidence: Float
+}
+
+# ─── Live Streaming Types ─────────────────────────────────────────────────────
+
+"""A live stream session attached to a Daily meeting."""
+type LiveStream {
+  id: ID!
+  meetingId: String
+  roomName: String!
+  status: LiveStreamStatus!
+  startedAt: DateTime
+  stoppedAt: DateTime
+}
+
+"""Live stream with RTMP endpoints and layout config."""
+type LiveStreamDetails {
+  id: ID!
+  meetingId: String
+  roomName: String!
+  status: LiveStreamStatus!
+  startedAt: DateTime
+  stoppedAt: DateTime
+  config: LiveStreamConfig!
+  rtmpEndpoints: [RTMP!]!
+  layout: StreamLayout
+  composition: StreamComposition
+}
+
+"""Configuration for a Daily live stream session."""
+type LiveStreamConfig {
+  layout: StreamLayout!
+  maxCamStreams: Int
+  backgroundColor: String
+  composition: StreamComposition
+  instanceId: String
+}
+
+"""A broadcast destination (platform + key) for a live stream."""
+type Broadcast {
+  id: ID!
+  url: URL!
+  streamKey: String
+  platform: String
+}
+
+"""Detailed broadcast object including stream health."""
+type BroadcastDetails {
+  id: ID!
+  url: URL!
+  streamKey: String
+  platform: String
+  healthStatus: String
+  startedAt: DateTime
+  stoppedAt: DateTime
+}
+
+"""A composite stream that mixes multiple video tracks."""
+type CompositeStream {
+  id: ID!
+  layout: StreamLayout!
+  resolution: Resolution!
+  codec: Codec
+  backgroundColor: String
+  participants: [String!]
+}
+
+"""An RTMP endpoint for live streaming output."""
+type RTMP {
+  url: URL!
+  streamKey: String!
+  platform: String
+}
+
+"""Composition settings controlling how video tracks are mixed."""
+type StreamComposition {
+  maxCamStreams: Int
+  camExclusionList: [String!]
+  camInclusionList: [String!]
+  customLayout: String
+}
+
+# ─── SIP / Dial-In Types ─────────────────────────────────────────────────────
+
+"""SIP trunk configuration for a Daily domain or room."""
+type SIPConfig {
+  id: ID!
+  sipUri: String!
+  displayName: String
+  username: String
+  roomCreation: Boolean
+  pinRequired: Boolean
+  codecs: [Codec!]
+}
+
+"""A SIP endpoint used for dial-in or dial-out calls."""
+type SIPEndpoint {
+  id: ID!
+  sipUri: String!
+  displayName: String
+  roomName: String
+  status: SIPCallStatus!
+}
+
+"""An active or completed SIP call."""
+type SIPCall {
+  id: ID!
+  sipEndpointId: String
+  roomName: String!
+  participantId: String
+  status: SIPCallStatus!
+  startedAt: DateTime
+  endedAt: DateTime
+  direction: String
+}
+
+"""A PSTN dial-in phone number for a Daily room."""
+type DialInNumber {
+  id: ID!
+  number: String!
+  country: String!
+  countryCode: String!
+  roomName: String
+  pin: String
+}
+
+# ─── Media Utility Types ──────────────────────────────────────────────────────
+
+"""Codec and bitrate constraints applied to a media track."""
+type Bandwidth {
+  kbs: Int
+  maxBitrate: Int
+  maxFramerate: Int
+}
+
+# ─── Metrics Types ────────────────────────────────────────────────────────────
+
+"""Aggregate metrics for a completed or active meeting."""
+type MeetingMetrics {
+  meetingId: String!
+  roomName: String!
+  duration: Int
+  maxParticipants: Int
+  totalParticipants: Int
+  avgVideoQuality: Float
+  avgAudioQuality: Float
+  errorCount: Int
+}
+
+"""Per-participant quality and engagement metrics."""
+type ParticipantMetrics {
+  participantId: String!
+  duration: Int
+  videoOnSeconds: Int
+  audioOnSeconds: Int
+  screenShareSeconds: Int
+  packetsLost: Int
+  avgRoundTripMs: Float
+}
+
+"""Network-level metrics for a participant."""
+type NetworkMetrics {
+  participantId: String!
+  avgRoundTripMs: Float
+  avgJitterMs: Float
+  packetLossPercent: Float
+  sendBandwidthKbps: Float
+  recvBandwidthKbps: Float
+  availableSendBandwidthKbps: Float
+  availableRecvBandwidthKbps: Float
+}
+
+# ─── Messaging / State Types ──────────────────────────────────────────────────
+
+"""An in-meeting app message sent between participants."""
+type AppMessage {
+  id: ID!
+  fromId: String!
+  toId: String
+  data: JSON!
+  sentAt: DateTime!
+}
+
+"""Snapshot of a participant's client-side state."""
+type ClientState {
+  participantId: String!
+  roomName: String!
+  cameraEnabled: Boolean!
+  micEnabled: Boolean!
+  screenShareEnabled: Boolean!
+  activeSpeaker: Boolean
+  networkQuality: String
+  joinedAt: DateTime!
+}
+
+# ─── Webhook Types ────────────────────────────────────────────────────────────
+
+"""A webhook subscription for Daily meeting events."""
+type Webhook {
+  id: ID!
+  url: URL!
+  enabled: Boolean!
+  eventTypes: [WebhookEventType!]!
+  hmacSecret: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A single webhook event payload delivered to a subscriber."""
+type WebhookEvent {
+  id: ID!
+  webhookId: String!
+  eventType: WebhookEventType!
+  payload: JSON!
+  deliveredAt: DateTime!
+  statusCode: Int
+  attempts: Int!
+}
+
+"""An event emitted during or after a Daily meeting."""
+type MeetingEvent {
+  id: ID!
+  meetingId: String!
+  roomName: String!
+  eventType: WebhookEventType!
+  participantId: String
+  occurredAt: DateTime!
+  data: JSON
+}
+
+# ─── Auth Types ───────────────────────────────────────────────────────────────
+
+"""A Daily API key used to authenticate REST requests."""
+type APIKey {
+  id: ID!
+  key: String!
+  name: String
+  createdAt: DateTime!
+  lastUsedAt: DateTime
+  enabled: Boolean!
+}
+
+"""A short-lived session token for Daily client SDKs."""
+type Token {
+  token: String!
+  roomName: String!
+  expiresAt: DateTime
+  userId: String
+  userName: String
+  isOwner: Boolean!
+}
+
+# ─── Input Types ─────────────────────────────────────────────────────────────
+
+input RoomConfigInput {
+  maxParticipants: Int
+  startAudioOff: Boolean
+  startVideoOff: Boolean
+  enableChat: Boolean
+  enableKnocking: Boolean
+  enableScreenShare: Boolean
+  enableRecording: RecordingType
+  enableTranscription: Boolean
+  enableLiveStreaming: Boolean
+  enablePrejoinUi: Boolean
+  expiry: DateTime
+  ejectAtRoomExpiry: Boolean
+  ejectAfterElapsed: Int
+  lang: String
+  region: String
+}
+
+input CreateRoomInput {
+  name: String
+  privacy: RoomPrivacy
+  config: RoomConfigInput
+}
+
+input CreateTokenInput {
+  roomName: String!
+  userId: String
+  userName: String
+  isOwner: Boolean
+  enableScreenShare: Boolean
+  startVideoOff: Boolean
+  startAudioOff: Boolean
+  enableRecording: RecordingType
+  expiry: DateTime
+  lang: String
+}
+
+input RecordingS3ConfigInput {
+  bucketName: String!
+  bucketRegion: String!
+  assumeRoleArn: String
+  allowApiAccess: Boolean
+}
+
+input StartRecordingInput {
+  roomName: String!
+  recordingType: RecordingType
+  layout: StreamLayout
+  backgroundColor: String
+  maxCamStreams: Int
+  s3Config: RecordingS3ConfigInput
+}
+
+input StartLiveStreamInput {
+  roomName: String!
+  rtmpUrl: URL!
+  streamKey: String
+  layout: StreamLayout
+  maxCamStreams: Int
+  backgroundColor: String
+}
+
+input CreateWebhookInput {
+  url: URL!
+  eventTypes: [WebhookEventType!]!
+  hmacSecret: String
+}
+
+input SIPConfigInput {
+  sipUri: String!
+  displayName: String
+  username: String
+  password: String
+  roomCreation: Boolean
+  pinRequired: Boolean
+  codecs: [Codec!]
+}
+
+input DialOutInput {
+  roomName: String!
+  sipUri: String!
+  displayName: String
+  codecs: [Codec!]
+}
+
+# ─── Query ────────────────────────────────────────────────────────────────────
+
+type Query {
+  "Get a room by name."
+  room(name: String!): Room
+
+  "List all rooms in the domain, with optional pagination."
+  rooms(limit: Int, offset: Int, excludeExpired: Boolean): [Room!]!
+
+  "Get full details for a room including active meeting and participants."
+  roomDetails(name: String!): RoomDetails
+
+  "Get a meeting session by ID."
+  meeting(id: ID!): Meeting
+
+  "List meetings, optionally filtered by room name."
+  meetings(roomName: String, limit: Int, offset: Int): [Meeting!]!
+
+  "Get full meeting details including participants and recordings."
+  meetingDetails(id: ID!): MeetingDetails
+
+  "Get a recording by ID."
+  recording(id: ID!): RecordingDetails
+
+  "List recordings, optionally filtered by room name."
+  recordings(roomName: String, limit: Int, offset: Int): [RecordingDetails!]!
+
+  "Get a transcript by ID."
+  transcript(id: ID!): TranscriptDetails
+
+  "List transcripts, optionally filtered by room name."
+  transcripts(roomName: String, limit: Int, offset: Int): [TranscriptDetails!]!
+
+  "Get a live stream by ID."
+  liveStream(id: ID!): LiveStreamDetails
+
+  "List live streams, optionally filtered by room name."
+  liveStreams(roomName: String): [LiveStream!]!
+
+  "Get a SIP configuration by ID."
+  sipConfig(id: ID!): SIPConfig
+
+  "List SIP configurations on the domain."
+  sipConfigs: [SIPConfig!]!
+
+  "Get dial-in numbers, optionally filtered by room."
+  dialInNumbers(roomName: String): [DialInNumber!]!
+
+  "Get a webhook subscription by ID."
+  webhook(id: ID!): Webhook
+
+  "List all webhook subscriptions on the domain."
+  webhooks: [Webhook!]!
+
+  "Get meeting metrics for a given meeting."
+  meetingMetrics(meetingId: ID!): MeetingMetrics
+
+  "List API keys on the account."
+  apiKeys: [APIKey!]!
+
+  "Get the domain-level access configuration."
+  domainAccess: DomainAccess
+}
+
+# ─── Mutation ─────────────────────────────────────────────────────────────────
+
+type Mutation {
+  "Create a new Daily room."
+  createRoom(input: CreateRoomInput!): Room!
+
+  "Update an existing room's configuration."
+  updateRoom(name: String!, config: RoomConfigInput!): Room!
+
+  "Delete a room by name."
+  deleteRoom(name: String!): Boolean!
+
+  "Create a meeting token for a room."
+  createMeetingToken(input: CreateTokenInput!): MeetingToken!
+
+  "Start a cloud recording in a room."
+  startRecording(input: StartRecordingInput!): Recording!
+
+  "Stop an active cloud recording."
+  stopRecording(recordingId: ID!): Recording!
+
+  "Delete a recording."
+  deleteRecording(recordingId: ID!): Boolean!
+
+  "Start a live stream from a room."
+  startLiveStream(input: StartLiveStreamInput!): LiveStreamDetails!
+
+  "Stop an active live stream."
+  stopLiveStream(roomName: String!): LiveStream!
+
+  "Initiate a SIP dial-out call from a room."
+  dialOut(input: DialOutInput!): SIPCall!
+
+  "Hang up a SIP call."
+  hangUpCall(callId: ID!): SIPCall!
+
+  "Create a SIP configuration."
+  createSIPConfig(input: SIPConfigInput!): SIPConfig!
+
+  "Delete a SIP configuration."
+  deleteSIPConfig(id: ID!): Boolean!
+
+  "Create a webhook subscription."
+  createWebhook(input: CreateWebhookInput!): Webhook!
+
+  "Update a webhook subscription."
+  updateWebhook(id: ID!, input: CreateWebhookInput!): Webhook!
+
+  "Delete a webhook subscription."
+  deleteWebhook(id: ID!): Boolean!
+
+  "Send an app message to a participant or broadcast to all."
+  sendAppMessage(roomName: String!, toId: String, data: JSON!): AppMessage!
+
+  "Eject a participant from a meeting."
+  ejectParticipant(roomName: String!, participantId: ID!): Boolean!
+
+  "Create a new API key."
+  createAPIKey(name: String): APIKey!
+
+  "Delete an API key."
+  deleteAPIKey(id: ID!): Boolean!
+}
+
+# ─── Subscription ─────────────────────────────────────────────────────────────
+
+type Subscription {
+  "Subscribe to events in a specific meeting."
+  meetingEvent(roomName: String!): MeetingEvent!
+
+  "Subscribe to participant state changes in a meeting."
+  participantState(roomName: String!): ClientState!
+
+  "Subscribe to app messages in a meeting."
+  appMessage(roomName: String!): AppMessage!
+
+  "Subscribe to recording status changes."
+  recordingStatus(roomName: String!): Recording!
+
+  "Subscribe to live stream status changes."
+  liveStreamStatus(roomName: String!): LiveStream!
+
+  "Subscribe to webhook delivery events."
+  webhookEvent(webhookId: ID!): WebhookEvent!
+}

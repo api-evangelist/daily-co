@@ -2,110 +2,116 @@ aid: daily-co
 url: https://raw.githubusercontent.com/api-evangelist/daily-co/refs/heads/main/apis.yml
 name: Daily
 kind: company
-description: >-
-  Daily provides WebRTC video and audio infrastructure for developers — REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React Native and Flutter.
+description: Daily provides WebRTC video and audio infrastructure for developers —
+  REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots
+  / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React
+  Native and Flutter.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Realtime
-  - WebRTC
-  - Video
-  - Audio
-  - SDK
-  - Voice AI
-  - Recording
-  - Transcription
+- Realtime
+- WebRTC
+- Video
+- Audio
+- SDK
+- Voice AI
+- Recording
+- Transcription
 created: '2026-05-08'
 modified: '2026-05-08'
 specificationVersion: '0.19'
 apis:
-  - aid: daily-co:rest-api
-    name: Daily REST API
-    description: >-
-      REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming and Daily Bots sessions. Authenticated with a Bearer API key.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.daily.co/reference/rest-api
-    baseURL: https://api.daily.co/v1
-    tags:
-      - REST
-      - Rooms
-      - Recordings
-      - Transcripts
-      - Meetings
-      - Webhooks
-      - Dial-Out
-      - Live Streaming
-    properties:
-      - type: Documentation
-        url: https://docs.daily.co/reference/rest-api
-      - type: GettingStarted
-        url: https://docs.daily.co/guides/products/getting-started
-      - type: Authentication
-        url: https://docs.daily.co/reference/rest-api#authentication
-      - type: Webhooks
-        url: https://docs.daily.co/reference/rest-api/webhooks
-      - type: SDK
-        url: https://docs.daily.co/reference
-  - aid: daily-co:pipecat-cloud
-    name: Pipecat Cloud (Daily Bots) API
-    description: >-
-      REST API and SDKs for deploying and managing voice AI agents built with the open-source Pipecat framework on Daily's infrastructure.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.pipecat.daily.co/
-    baseURL: https://api.pipecat.daily.co/
-    tags:
-      - REST
-      - Voice AI
-      - Agents
-      - Pipecat
-    properties:
-      - type: Documentation
-        url: https://docs.pipecat.daily.co/
-      - type: SourceCode
-        url: https://github.com/pipecat-ai/pipecat
-common:
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/dailyco
-  - type: Website
-    url: https://www.daily.co/
+- aid: daily-co:rest-api
+  name: Daily REST API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings,
+    transcripts, meetings, participants, presence, batch operations, dial-in/dial-out
+    (PSTN/SIP), webhooks, live streaming and Daily Bots sessions. Authenticated with
+    a Bearer API key.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - REST
+  - Rooms
+  - Recordings
+  - Transcripts
+  - Meetings
+  - Webhooks
+  - Dial-Out
+  - Live Streaming
+  properties:
   - type: Documentation
-    url: https://docs.daily.co/
-  - type: Pricing
-    url: https://www.daily.co/pricing/
-  - type: Blog
-    url: https://www.daily.co/blog/
-  - type: GitHub
-    url: https://github.com/daily-co
-  - type: StatusPage
-    url: https://status.daily.co/
-  - type: Plans
-    url: plans/daily-co-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/daily-co-rate-limits.yml
-  - type: FinOps
-    url: finops/daily-co-finops.yml
-  - type: Integrations
-    url: https://www.daily.co/partners/
+    url: https://docs.daily.co/reference/rest-api
+  - type: GettingStarted
+    url: https://docs.daily.co/guides/products/getting-started
+  - type: Authentication
+    url: https://docs.daily.co/reference/rest-api#authentication
+  - type: Webhooks
+    url: https://docs.daily.co/reference/rest-api/webhooks
+  - type: SDK
+    url: https://docs.daily.co/reference
+  - url: graphql/daily-co-graphql.md
+    type: GraphQL
+- aid: daily-co:pipecat-cloud
+  name: Pipecat Cloud (Daily Bots) API
+  description: REST API and SDKs for deploying and managing voice AI agents built
+    with the open-source Pipecat framework on Daily's infrastructure.
+  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.pipecat.daily.co/
+  baseURL: https://api.pipecat.daily.co/
+  tags:
+  - REST
+  - Voice AI
+  - Agents
+  - Pipecat
+  properties:
+  - type: Documentation
+    url: https://docs.pipecat.daily.co/
+  - type: SourceCode
+    url: https://github.com/pipecat-ai/pipecat
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/dailyco
+- type: Website
+  url: https://www.daily.co/
+- type: Documentation
+  url: https://docs.daily.co/
+- type: Pricing
+  url: https://www.daily.co/pricing/
+- type: Blog
+  url: https://www.daily.co/blog/
+- type: GitHub
+  url: https://github.com/daily-co
+- type: StatusPage
+  url: https://status.daily.co/
+- type: Plans
+  url: plans/daily-co-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/daily-co-rate-limits.yml
+- type: FinOps
+  url: finops/daily-co-finops.yml
+- type: Integrations
+  url: https://www.daily.co/partners/
 integrations:
-  - name: AWS Marketingplace
-  - name: Azure
-  - name: google-logo
-  - name: OpenAI
-  - name: nvidia-logo
-  - name: Assembly AI
-  - name: Deepgram
-  - name: Speechmatics
-  - name: Gladia
-  - name: Krisp
-  - name: Cartesia
-  - name: ElevenLabs
-  - name: Inworld
-  - name: Rime
-  - name: Tavus
-  - name: Cerebrium
-  - name: Cekura
-  - name: Coval
-  - name: Modal
-  - name: Together AI
+- name: AWS Marketingplace
+- name: Azure
+- name: google-logo
+- name: OpenAI
+- name: nvidia-logo
+- name: Assembly AI
+- name: Deepgram
+- name: Speechmatics
+- name: Gladia
+- name: Krisp
+- name: Cartesia
+- name: ElevenLabs
+- name: Inworld
+- name: Rime
+- name: Tavus
+- name: Cerebrium
+- name: Cekura
+- name: Coval
+- name: Modal
+- name: Together AI
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
