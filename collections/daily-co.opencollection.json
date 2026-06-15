@@ -1,0 +1,1073 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Daily REST API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Domain",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get domain configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/"
+          },
+          "docs": "Get domain configuration"
+        },
+        {
+          "info": {
+            "name": "Set domain configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set domain configuration"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Rooms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/rooms",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List rooms"
+        },
+        {
+          "info": {
+            "name": "Create a room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a room"
+        },
+        {
+          "info": {
+            "name": "Get room configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/rooms/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get room configuration"
+        },
+        {
+          "info": {
+            "name": "Set room configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set room configuration"
+        },
+        {
+          "info": {
+            "name": "Delete a room",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/rooms/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a room"
+        },
+        {
+          "info": {
+            "name": "Get room presence",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/rooms/:name/presence",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get room presence"
+        },
+        {
+          "info": {
+            "name": "Send app message to room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/send-app-message",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send app message to room"
+        },
+        {
+          "info": {
+            "name": "Retrieve session data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/rooms/:name/get-session-data",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve session data"
+        },
+        {
+          "info": {
+            "name": "Store session data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/set-session-data",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Store session data"
+        },
+        {
+          "info": {
+            "name": "Eject participants",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/eject",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Eject participants"
+        },
+        {
+          "info": {
+            "name": "Update participant permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/update-permissions",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update participant permissions"
+        },
+        {
+          "info": {
+            "name": "Batch create rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/batch/rooms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch create rooms"
+        },
+        {
+          "info": {
+            "name": "Batch delete rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/batch/rooms",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch delete rooms"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Recordings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List recordings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/recordings",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "room_name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List recordings"
+        },
+        {
+          "info": {
+            "name": "Get recording details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/recordings/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get recording details"
+        },
+        {
+          "info": {
+            "name": "Delete recording",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/recordings/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete recording"
+        },
+        {
+          "info": {
+            "name": "Generate recording download link",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/recordings/:id/access-link",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Generate recording download link"
+        },
+        {
+          "info": {
+            "name": "Start recording in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/recordings/start",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start recording in room"
+        },
+        {
+          "info": {
+            "name": "Update recording in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/recordings/update",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update recording in room"
+        },
+        {
+          "info": {
+            "name": "Stop recording in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/recordings/stop",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop recording in room"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transcription",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List transcripts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/transcript"
+          },
+          "docs": "List transcripts"
+        },
+        {
+          "info": {
+            "name": "Get transcript details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/transcript/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get transcript details"
+        },
+        {
+          "info": {
+            "name": "Delete transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/transcript/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete transcript"
+        },
+        {
+          "info": {
+            "name": "Generate transcript access link",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/transcript/:id/access-link",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Generate transcript access link"
+        },
+        {
+          "info": {
+            "name": "Start transcription in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/transcription/start",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start transcription in room"
+        },
+        {
+          "info": {
+            "name": "Update transcription in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/transcription/update",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update transcription in room"
+        },
+        {
+          "info": {
+            "name": "Stop transcription in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/transcription/stop",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop transcription in room"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "LiveStreaming",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start live streaming in room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/live-streaming/start",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start live streaming in room"
+        },
+        {
+          "info": {
+            "name": "Update live streaming",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/live-streaming/update",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update live streaming"
+        },
+        {
+          "info": {
+            "name": "Stop live streaming",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/live-streaming/stop",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop live streaming"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MeetingTokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create meeting token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/meeting-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create meeting token"
+        },
+        {
+          "info": {
+            "name": "Validate meeting token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meeting-tokens/:meeting_token",
+            "params": [
+              {
+                "name": "meeting_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Validate meeting token"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Meetings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List meetings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meetings"
+          },
+          "docs": "List meetings"
+        },
+        {
+          "info": {
+            "name": "Get a specific meeting",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meetings/:meeting",
+            "params": [
+              {
+                "name": "meeting",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific meeting"
+        },
+        {
+          "info": {
+            "name": "List meeting participants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meetings/:meeting/participants",
+            "params": [
+              {
+                "name": "meeting",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List meeting participants"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Presence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve presence",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/presence"
+          },
+          "docs": "Retrieve presence"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DialOut",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start dial-out call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/dialOut/start",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start dial-out call"
+        },
+        {
+          "info": {
+            "name": "Send DTMF tones",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/dialOut/sendDTMF",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send DTMF tones"
+        },
+        {
+          "info": {
+            "name": "Stop dial-out call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/dialOut/stop",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stop dial-out call"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DialIn",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update dial-in status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/dialin/pinlessCallUpdate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update dial-in status"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CallTransfer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Transfer call via SIP",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/sipCallTransfer",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Transfer call via SIP"
+        },
+        {
+          "info": {
+            "name": "Issue SIP REFER",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/rooms/:name/sipRefer",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Issue SIP REFER"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/webhooks"
+          },
+          "docs": "List webhooks"
+        },
+        {
+          "info": {
+            "name": "Register webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register webhook"
+        },
+        {
+          "info": {
+            "name": "Remove webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/webhooks"
+          },
+          "docs": "Remove webhook"
+        },
+        {
+          "info": {
+            "name": "Get webhook details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/webhooks/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get webhook details"
+        },
+        {
+          "info": {
+            "name": "Update webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/webhooks/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update webhook"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PhoneNumbers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available phone numbers to purchase",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/list-available-numbers"
+          },
+          "docs": "List available phone numbers to purchase"
+        },
+        {
+          "info": {
+            "name": "Purchase a phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/buy-phone-number",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purchase a phone number"
+        },
+        {
+          "info": {
+            "name": "Release a purchased phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/release-phone-number/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Release a purchased phone number"
+        },
+        {
+          "info": {
+            "name": "List purchased phone numbers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/purchased-phone-numbers"
+          },
+          "docs": "List purchased phone numbers"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
