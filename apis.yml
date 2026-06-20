@@ -6,7 +6,7 @@ description: Daily provides WebRTC video and audio infrastructure for developers
   REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots
   / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React
   Native and Flutter.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Realtime
 - WebRTC
@@ -26,7 +26,7 @@ apis:
     transcripts, meetings, participants, presence, batch operations, dial-in/dial-out
     (PSTN/SIP), webhooks, live streaming and Daily Bots sessions. Authenticated with
     a Bearer API key.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
@@ -55,7 +55,7 @@ apis:
   name: Pipecat Cloud (Daily Bots) API
   description: REST API and SDKs for deploying and managing voice AI agents built
     with the open-source Pipecat framework on Daily's infrastructure.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.pipecat.daily.co/
   baseURL: https://api.pipecat.daily.co/
   tags:
