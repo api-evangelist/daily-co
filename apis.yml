@@ -47,7 +47,7 @@ apis:
     url: https://docs.daily.co/reference/rest-api#authentication
   - type: Webhooks
     url: https://docs.daily.co/reference/rest-api/webhooks
-  - type: SDK
+  - type: SDKs
     url: https://docs.daily.co/reference
   - url: graphql/daily-co-graphql.md
     type: GraphQL
