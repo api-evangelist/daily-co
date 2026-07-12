@@ -69,6 +69,12 @@ apis:
   - type: SourceCode
     url: https://github.com/pipecat-ai/pipecat
 common:
+- type: TrustCenter
+  url: security/daily-co-trust-center.yml
+- type: DomainSecurity
+  url: security/daily-co-domain-security.yml
+- type: Authentication
+  url: authentication/daily-co-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/dailyco
 - type: Website
