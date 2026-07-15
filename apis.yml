@@ -69,6 +69,8 @@ apis:
   - type: SourceCode
     url: https://github.com/pipecat-ai/pipecat
 common:
+- type: AgenticAccess
+  url: agentic-access/daily-co-agentic-access.yml
 - type: TrustCenter
   url: security/daily-co-trust-center.yml
 - type: DomainSecurity
