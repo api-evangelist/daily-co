@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: Daily REST CallTransfer PhoneNumbers API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: PhoneNumbers
+paths:
+  /list-available-numbers:
+    get:
+      tags:
+      - PhoneNumbers
+      summary: List available phone numbers to purchase
+      responses:
+        '200':
+          description: Available numbers
+  /buy-phone-number:
+    post:
+      tags:
+      - PhoneNumbers
+      summary: Purchase a phone number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+      responses:
+        '200':
+          description: Purchased
+  /release-phone-number/{id}:
+    delete:
+      tags:
+      - PhoneNumbers
+      summary: Release a purchased phone number
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Released
+  /purchased-phone-numbers:
+    get:
+      tags:
+      - PhoneNumbers
+      summary: List purchased phone numbers
+      responses:
+        '200':
+          description: Numbers
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

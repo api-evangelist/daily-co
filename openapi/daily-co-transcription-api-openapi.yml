@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: Daily REST CallTransfer Transcription API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Transcription
+paths:
+  /transcript:
+    get:
+      tags:
+      - Transcription
+      summary: List transcripts
+      responses:
+        '200':
+          description: Transcripts
+  /transcript/{id}:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Transcription
+      summary: Get transcript details
+      responses:
+        '200':
+          description: Transcript
+    delete:
+      tags:
+      - Transcription
+      summary: Delete transcript
+      responses:
+        '200':
+          description: Deleted
+  /transcript/{id}/access-link:
+    get:
+      tags:
+      - Transcription
+      summary: Generate transcript access link
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Access link
+  /rooms/{name}/transcription/start:
+    post:
+      tags:
+      - Transcription
+      summary: Start transcription in room
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Started
+  /rooms/{name}/transcription/update:
+    post:
+      tags:
+      - Transcription
+      summary: Update transcription in room
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+  /rooms/{name}/transcription/stop:
+    post:
+      tags:
+      - Transcription
+      summary: Stop transcription in room
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Stopped
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

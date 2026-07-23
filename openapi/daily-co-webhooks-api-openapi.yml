@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info:
+  title: Daily REST CallTransfer Webhooks API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Webhooks
+paths:
+  /webhooks:
+    get:
+      tags:
+      - Webhooks
+      summary: List webhooks
+      responses:
+        '200':
+          description: Webhooks
+    post:
+      tags:
+      - Webhooks
+      summary: Register webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                eventTypes:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Created
+    delete:
+      tags:
+      - Webhooks
+      summary: Remove webhook
+      responses:
+        '200':
+          description: Deleted
+  /webhooks/{uuid}:
+    parameters:
+    - in: path
+      name: uuid
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      tags:
+      - Webhooks
+      summary: Get webhook details
+      responses:
+        '200':
+          description: Webhook
+    post:
+      tags:
+      - Webhooks
+      summary: Update webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

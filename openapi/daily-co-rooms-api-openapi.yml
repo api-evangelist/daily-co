@@ -1,0 +1,244 @@
+openapi: 3.1.0
+info:
+  title: Daily REST CallTransfer Rooms API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Rooms
+paths:
+  /rooms:
+    get:
+      tags:
+      - Rooms
+      summary: List rooms
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      - in: query
+        name: ending_before
+        schema:
+          type: string
+      - in: query
+        name: starting_after
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of rooms
+    post:
+      tags:
+      - Rooms
+      summary: Create a room
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                privacy:
+                  type: string
+                  enum:
+                  - public
+                  - private
+                properties:
+                  type: object
+      responses:
+        '200':
+          description: Room created
+  /rooms/{name}:
+    parameters:
+    - in: path
+      name: name
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Rooms
+      summary: Get room configuration
+      responses:
+        '200':
+          description: Room
+    post:
+      tags:
+      - Rooms
+      summary: Set room configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+    delete:
+      tags:
+      - Rooms
+      summary: Delete a room
+      responses:
+        '200':
+          description: Deleted
+  /rooms/{name}/presence:
+    get:
+      tags:
+      - Rooms
+      summary: Get room presence
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Presence
+  /rooms/{name}/send-app-message:
+    post:
+      tags:
+      - Rooms
+      summary: Send app message to room
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                recipientSessionId:
+                  type: string
+      responses:
+        '200':
+          description: Sent
+  /rooms/{name}/get-session-data:
+    get:
+      tags:
+      - Rooms
+      summary: Retrieve session data
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Session data
+  /rooms/{name}/set-session-data:
+    post:
+      tags:
+      - Rooms
+      summary: Store session data
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Stored
+  /rooms/{name}/eject:
+    post:
+      tags:
+      - Rooms
+      summary: Eject participants
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Ejected
+  /rooms/{name}/update-permissions:
+    post:
+      tags:
+      - Rooms
+      summary: Update participant permissions
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+  /batch/rooms:
+    post:
+      tags:
+      - Rooms
+      summary: Batch create rooms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rooms:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: Created
+    delete:
+      tags:
+      - Rooms
+      summary: Batch delete rooms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                names:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Deleted
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

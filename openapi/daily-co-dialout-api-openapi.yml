@@ -1,0 +1,76 @@
+openapi: 3.1.0
+info:
+  title: Daily REST CallTransfer DialOut API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: DialOut
+paths:
+  /rooms/{name}/dialOut/start:
+    post:
+      tags:
+      - DialOut
+      summary: Start dial-out call
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Started
+  /rooms/{name}/dialOut/sendDTMF:
+    post:
+      tags:
+      - DialOut
+      summary: Send DTMF tones
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tones:
+                  type: string
+                sessionId:
+                  type: string
+      responses:
+        '200':
+          description: Sent
+  /rooms/{name}/dialOut/stop:
+    post:
+      tags:
+      - DialOut
+      summary: Stop dial-out call
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Stopped
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

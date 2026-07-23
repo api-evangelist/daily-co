@@ -1,0 +1,49 @@
+openapi: 3.1.0
+info:
+  title: Daily REST CallTransfer MeetingTokens API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: MeetingTokens
+paths:
+  /meeting-tokens:
+    post:
+      tags:
+      - MeetingTokens
+      summary: Create meeting token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                properties:
+                  type: object
+      responses:
+        '200':
+          description: Token created
+  /meeting-tokens/{meeting_token}:
+    get:
+      tags:
+      - MeetingTokens
+      summary: Validate meeting token
+      parameters:
+      - in: path
+        name: meeting_token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Token data
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.
