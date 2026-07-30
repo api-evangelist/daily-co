@@ -6,7 +6,20 @@ description: Daily provides WebRTC video and audio infrastructure for developers
   REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots
   / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React
   Native and Flutter.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/daily-co.png
 tags:
 - Realtime
 - WebRTC
@@ -22,10 +35,10 @@ specificationVersion: '0.19'
 apis:
 - aid: daily-co:rest-api
   name: Daily REST API
-  description: REST API for managing Daily domains, rooms, meeting tokens, recordings,
-    transcripts, meetings, participants, presence, batch operations, dial-in/dial-out
-    (PSTN/SIP), webhooks, live streaming and Daily Bots sessions. Authenticated with
-    a Bearer API key.
+  description: >-
+    REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants,
+    presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming and Daily Bots sessions.
+    Authenticated with a Bearer API key.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
@@ -53,8 +66,9 @@ apis:
     type: GraphQL
 - aid: daily-co:pipecat-cloud
   name: Pipecat Cloud (Daily Bots) API
-  description: REST API and SDKs for deploying and managing voice AI agents built
-    with the open-source Pipecat framework on Daily's infrastructure.
+  description: >-
+    REST API and SDKs for deploying and managing voice AI agents built with the open-source Pipecat framework
+    on Daily's infrastructure.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.pipecat.daily.co/
   baseURL: https://api.pipecat.daily.co/
@@ -68,6 +82,136 @@ apis:
     url: https://docs.pipecat.daily.co/
   - type: SourceCode
     url: https://github.com/pipecat-ai/pipecat
+- aid: daily-co:daily-co-calltransfer-api
+  name: Daily CallTransfer API
+  description: The CallTransfer API from Daily — 2 operation(s) for calltransfer.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - CallTransfer
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-calltransfer-api-openapi.yml
+- aid: daily-co:daily-co-dialin-api
+  name: Daily DialIn API
+  description: The DialIn API from Daily — 1 operation(s) for dialin.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - DialIn
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-dialin-api-openapi.yml
+- aid: daily-co:daily-co-dialout-api
+  name: Daily DialOut API
+  description: The DialOut API from Daily — 3 operation(s) for dialout.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - DialOut
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-dialout-api-openapi.yml
+- aid: daily-co:daily-co-domain-api
+  name: Daily Domain API
+  description: The Domain API from Daily — 1 operation(s) for domain.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Domain
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-domain-api-openapi.yml
+- aid: daily-co:daily-co-livestreaming-api
+  name: Daily LiveStreaming API
+  description: The LiveStreaming API from Daily — 3 operation(s) for livestreaming.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - LiveStreaming
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-livestreaming-api-openapi.yml
+- aid: daily-co:daily-co-meetings-api
+  name: Daily Meetings API
+  description: The Meetings API from Daily — 3 operation(s) for meetings.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Meetings
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-meetings-api-openapi.yml
+- aid: daily-co:daily-co-meetingtokens-api
+  name: Daily MeetingTokens API
+  description: The MeetingTokens API from Daily — 2 operation(s) for meetingtokens.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - MeetingTokens
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-meetingtokens-api-openapi.yml
+- aid: daily-co:daily-co-phonenumbers-api
+  name: Daily PhoneNumbers API
+  description: The PhoneNumbers API from Daily — 4 operation(s) for phonenumbers.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - PhoneNumbers
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-phonenumbers-api-openapi.yml
+- aid: daily-co:daily-co-presence-api
+  name: Daily Presence API
+  description: The Presence API from Daily — 1 operation(s) for presence.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Presence
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-presence-api-openapi.yml
+- aid: daily-co:daily-co-recordings-api
+  name: Daily Recordings API
+  description: The Recordings API from Daily — 6 operation(s) for recordings.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Recordings
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-recordings-api-openapi.yml
+- aid: daily-co:daily-co-rooms-api
+  name: Daily Rooms API
+  description: The Rooms API from Daily — 9 operation(s) for rooms.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Rooms
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-rooms-api-openapi.yml
+- aid: daily-co:daily-co-transcription-api
+  name: Daily Transcription API
+  description: The Transcription API from Daily — 6 operation(s) for transcription.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Transcription
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-transcription-api-openapi.yml
+- aid: daily-co:daily-co-webhooks-api
+  name: Daily Webhooks API
+  description: The Webhooks API from Daily — 2 operation(s) for webhooks.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-webhooks-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/daily-co-agentic-access.yml
