@@ -1,0 +1,38 @@
+{
+  "provider": "daily-co",
+  "sources": [
+    "daily-co-calltransfer-api-openapi.yml",
+    "daily-co-dialin-api-openapi.yml",
+    "daily-co-dialout-api-openapi.yml",
+    "daily-co-domain-api-openapi.yml",
+    "daily-co-livestreaming-api-openapi.yml",
+    "daily-co-meetings-api-openapi.yml",
+    "daily-co-meetingtokens-api-openapi.yml",
+    "daily-co-phonenumbers-api-openapi.yml",
+    "daily-co-presence-api-openapi.yml",
+    "daily-co-recordings-api-openapi.yml",
+    "daily-co-rooms-api-openapi.yml",
+    "daily-co-transcription-api-openapi.yml",
+    "daily-co-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "daily-co-calltransfer-api-openapi.yml",
+    "daily-co-dialin-api-openapi.yml",
+    "daily-co-dialout-api-openapi.yml",
+    "daily-co-domain-api-openapi.yml",
+    "daily-co-livestreaming-api-openapi.yml",
+    "daily-co-meetings-api-openapi.yml",
+    "daily-co-meetingtokens-api-openapi.yml",
+    "daily-co-phonenumbers-api-openapi.yml",
+    "daily-co-presence-api-openapi.yml",
+    "daily-co-recordings-api-openapi.yml",
+    "daily-co-rooms-api-openapi.yml",
+    "daily-co-transcription-api-openapi.yml",
+    "daily-co-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
