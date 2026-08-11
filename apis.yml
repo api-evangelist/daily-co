@@ -213,6 +213,17 @@ apis:
   - type: OpenAPI
     url: openapi/daily-co-webhooks-api-openapi.yml
 common:
+- type: IssueTracker
+  url: https://github.com/pipecat-ai/pipecat/issues
+- type: Releases
+  url: https://github.com/pipecat-ai/pipecat/releases
+- type: SecurityPolicy
+  url: https://github.com/pipecat-ai/pipecat/blob/main/SECURITY.md
+- type: ContributionGuide
+  url: https://github.com/pipecat-ai/pipecat/blob/main/CONTRIBUTING.md
+- type: License
+  name: BSD-2-Clause
+  url: https://github.com/pipecat-ai/pipecat/blob/main/LICENSE
 - type: AgenticAccess
   url: agentic-access/daily-co-agentic-access.yml
 - type: TrustCenter
