@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Daily REST CallTransfer MeetingTokens API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MeetingTokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create meeting token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/meeting-tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create meeting token"
+        },
+        {
+          "info": {
+            "name": "Validate meeting token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meeting-tokens/:meeting_token",
+            "params": [
+              {
+                "name": "meeting_token",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Validate meeting token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

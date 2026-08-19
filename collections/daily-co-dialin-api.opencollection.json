@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Daily REST CallTransfer DialIn API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DialIn",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update dial-in status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/dialin/pinlessCallUpdate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update dial-in status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

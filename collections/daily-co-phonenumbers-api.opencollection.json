@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Daily REST CallTransfer PhoneNumbers API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PhoneNumbers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available phone numbers to purchase",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/list-available-numbers"
+          },
+          "docs": "List available phone numbers to purchase"
+        },
+        {
+          "info": {
+            "name": "Purchase a phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.daily.co/v1/buy-phone-number",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purchase a phone number"
+        },
+        {
+          "info": {
+            "name": "Release a purchased phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.daily.co/v1/release-phone-number/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Release a purchased phone number"
+        },
+        {
+          "info": {
+            "name": "List purchased phone numbers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/purchased-phone-numbers"
+          },
+          "docs": "List purchased phone numbers"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

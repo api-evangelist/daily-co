@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Daily REST CallTransfer Meetings API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Meetings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List meetings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meetings"
+          },
+          "docs": "List meetings"
+        },
+        {
+          "info": {
+            "name": "Get a specific meeting",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meetings/:meeting",
+            "params": [
+              {
+                "name": "meeting",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific meeting"
+        },
+        {
+          "info": {
+            "name": "List meeting participants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.daily.co/v1/meetings/:meeting/participants",
+            "params": [
+              {
+                "name": "meeting",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List meeting participants"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
