@@ -21,6 +21,15 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/daily-co.png
 tags:
+- Real-Time
+- WebRTC
+- Video
+- Audio
+- SDK
+- Voice AI
+- Recording
+- Transcription
+tags_raw:
 - Realtime
 - WebRTC
 - Video
@@ -43,6 +52,15 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
+  - REST
+  - Rooms
+  - Recordings
+  - Transcripts
+  - Meetings
+  - Webhook
+  - Dial-Out
+  - Live Streaming
+  tags_raw:
   - REST
   - Rooms
   - Recordings
@@ -108,6 +126,8 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
+  - Dial-Out
+  tags_raw:
   - DialOut
   properties:
   - type: OpenAPI
@@ -128,6 +148,8 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
+  - Live Streaming
+  tags_raw:
   - LiveStreaming
   properties:
   - type: OpenAPI
@@ -158,6 +180,8 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
+  - Phone Numbers
+  tags_raw:
   - PhoneNumbers
   properties:
   - type: OpenAPI
@@ -208,6 +232,8 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
