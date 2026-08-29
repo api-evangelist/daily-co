@@ -253,6 +253,9 @@ apis:
   - type: OpenAPI
     url: openapi/daily-co-webhooks-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/daily-co-capability-edges.yml
+  name: Daily Business Capability Map
 - type: IssueTracker
   url: https://github.com/pipecat-ai/pipecat/issues
 - type: Releases
