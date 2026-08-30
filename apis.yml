@@ -140,7 +140,7 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
-  - Dial-Out
+  - DialOut
   tags_raw:
   - DialOut
   properties:
@@ -162,7 +162,7 @@ apis:
   humanURL: https://docs.daily.co/reference/rest-api
   baseURL: https://api.daily.co/v1
   tags:
-  - Live Streaming
+  - LiveStreaming
   tags_raw:
   - LiveStreaming
   properties:
