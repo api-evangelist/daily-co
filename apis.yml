@@ -125,16 +125,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-calltransfer-api-openapi.yml
-- aid: daily-co:daily-co-dialin-api
-  name: Daily DialIn API
-  description: The DialIn API from Daily — 1 operation(s) for dialin.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - DialIn
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-dialin-api-openapi.yml
 - aid: daily-co:daily-co-dialout-api
   name: Daily DialOut API
   description: The DialOut API from Daily — 3 operation(s) for dialout.
@@ -157,18 +147,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-domain-api-openapi.yml
-- aid: daily-co:daily-co-livestreaming-api
-  name: Daily LiveStreaming API
-  description: The LiveStreaming API from Daily — 3 operation(s) for livestreaming.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - Live Streaming
-  tags_raw:
-  - LiveStreaming
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-livestreaming-api-openapi.yml
 - aid: daily-co:daily-co-meetings-api
   name: Daily Meetings API
   description: The Meetings API from Daily — 3 operation(s) for meetings.
@@ -179,28 +157,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-meetings-api-openapi.yml
-- aid: daily-co:daily-co-meetingtokens-api
-  name: Daily MeetingTokens API
-  description: The MeetingTokens API from Daily — 2 operation(s) for meetingtokens.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - MeetingTokens
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-meetingtokens-api-openapi.yml
-- aid: daily-co:daily-co-phonenumbers-api
-  name: Daily PhoneNumbers API
-  description: The PhoneNumbers API from Daily — 4 operation(s) for phonenumbers.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - Phone Numbers
-  tags_raw:
-  - PhoneNumbers
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-phonenumbers-api-openapi.yml
 - aid: daily-co:daily-co-presence-api
   name: Daily Presence API
   description: The Presence API from Daily — 1 operation(s) for presence.
@@ -253,6 +209,46 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-webhooks-api-openapi.yml
+- aid: daily-co:daily-co-dial-in-api
+  name: Daily Dial In API
+  description: The Dial In API from Daily — 1 operation(s) for dial in.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Dial In
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-dial-in-api-openapi.yml
+- aid: daily-co:daily-co-live-streaming-api
+  name: Daily Live Streaming API
+  description: The Live Streaming API from Daily — 3 operation(s) for live streaming.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Live Streaming
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-live-streaming-api-openapi.yml
+- aid: daily-co:daily-co-meeting-tokens-api
+  name: Daily Meeting Tokens API
+  description: The Meeting Tokens API from Daily — 2 operation(s) for meeting tokens.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Meeting Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-meeting-tokens-api-openapi.yml
+- aid: daily-co:daily-co-phone-numbers-api
+  name: Daily Phone Numbers API
+  description: The Phone Numbers API from Daily — 4 operation(s) for phone numbers.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Phone Numbers
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-phone-numbers-api-openapi.yml
 common:
 - type: CapabilityMap
   url: capabilities/daily-co-capability-edges.yml
