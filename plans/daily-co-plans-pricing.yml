@@ -1,111 +1,25 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Daily
-providerId: daily-co
-created: '2026-05-08'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-08, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-08'
-reconciled: true
-tags:
-- Realtime
-- WebRTC
-- Video
-- Audio
-- SDK
-- Plans
-- Pricing
-description: >-
-  Daily monetises three product surfaces — the Video SDK (real-time video/audio),
-  Pipecat Cloud (voice AI agents) and WebRTC infrastructure (raw SFU / TURN). All
-  three are usage-based with a free monthly allotment on the Video SDK and
-  custom-priced enterprise terms.
-notes: >-
-  Daily lists usage-based pricing only on its public pricing page; per-minute
-  unit prices are quoted per product page or via sales. The 10,000 free Video
-  SDK minutes/month figure is taken directly from daily.co/pricing.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.daily.co/pricing/
 sources:
 - https://www.daily.co/pricing/
-- https://www.daily.co/pricing/video-sdk/
-- https://www.daily.co/pricing/pipecat-cloud/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: usage-other
+published: false
+note: No numeric price is published on the pricing page; Pricing hub page linking to Video SDK and Pipecat
+  Cloud pricing; no numeric prices shown, only a free allowance of 10,000 minutes/month and 'Talk to sales'.
+plan_count: 2
 plans:
-- id: daily-video-sdk-free
-  name: Video SDK — Free Tier
-  type: free
-  description: First 10,000 participant-minutes per month at no charge on the Video SDK.
-  entries:
-  - label: Included participant-minutes
-    name: included_minutes
-    type: tier
-    metric: participant-minutes/month
-    limit: 10000
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: 0
-    userMultiplied: false
-- id: daily-video-sdk-payg
-  name: Video SDK — Pay-As-You-Go
-  type: payAsYouGo
-  description: Usage-based per-minute billing for video/audio above the free tier; volume discounts at scale.
-  entries:
-  - label: Participant-minutes
-    name: video_minutes
-    type: usage
-    metric: participant-minutes
-    limit: -1
-    timeFrame: usage
-    geo: global
-    unit: 1
-    price: see https://www.daily.co/pricing/video-sdk/
-    userMultiplied: false
-- id: daily-pipecat-cloud
-  name: Pipecat Cloud
-  type: payAsYouGo
-  description: Usage-based pricing for Pipecat-based voice AI agents on Daily infrastructure.
-  entries:
-  - label: Agent runtime
-    name: agent_runtime
-    type: usage
-    metric: agent-minutes
-    limit: -1
-    timeFrame: usage
-    geo: global
-    unit: 1
-    price: see https://www.daily.co/pricing/pipecat-cloud/
-    userMultiplied: false
-- id: daily-webrtc-infra
-  name: WebRTC Infrastructure
-  type: payAsYouGo
-  description: Raw WebRTC infrastructure (SFU, TURN) with usage-based pricing and discounts at scale.
-  entries:
-  - label: WebRTC usage
-    name: webrtc_usage
-    type: usage
-    metric: varies
-    limit: -1
-    timeFrame: usage
-    geo: global
-    unit: 1
-    price: contact sales
-    userMultiplied: false
-- id: daily-enterprise
-  name: Enterprise
-  type: enterprise
-  description: Custom commitments, SLAs and discounted unit rates. Negotiated via Daily sales.
-  entries:
-  - label: Custom contract
-    name: enterprise_contract
-    type: flat
-    metric: contract
-    limit: -1
-    timeFrame: annual
-    geo: global
-    unit: 1
-    price: contact sales
-    userMultiplied: false
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+- name: Video SDK
+  price_text: Starting with 10,000 free minutes/month
+  period: month
+  unit: minutes
+  included_quota: 10,000 free minutes/month
+- name: Pipecat Cloud
+  price_text: Usage-based pricing, completely flexible stack
+  period: none
