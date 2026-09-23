@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Daily REST Dial Out API
+  title: Daily REST Phone Numbers API
   description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
   version: 1.0.0
 servers:
@@ -9,70 +9,61 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: DialOut
+- name: Phone Numbers
 paths:
-  /rooms/{name}/dialOut/start:
-    post:
+  /list-available-numbers:
+    get:
       tags:
-      - DialOut
-      summary: Start dial-out call
-      parameters:
-      - in: path
-        name: name
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
+      - Phone Numbers
+      summary: List available phone numbers to purchase
       responses:
         '200':
-          description: Started
-      operationId: postRoomsByNameDialOutStart
+          description: Available numbers
+      operationId: getListAvailableNumbers
       x-operation-id-source: derived
-  /rooms/{name}/dialOut/sendDTMF:
+  /buy-phone-number:
     post:
       tags:
-      - DialOut
-      summary: Send DTMF tones
-      parameters:
-      - in: path
-        name: name
-        required: true
-        schema:
-          type: string
+      - Phone Numbers
+      summary: Purchase a phone number
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                tones:
-                  type: string
-                sessionId:
+                number:
                   type: string
       responses:
         '200':
-          description: Sent
-      operationId: postRoomsByNameDialOutSendDTMF
+          description: Purchased
+      operationId: postBuyPhoneNumber
       x-operation-id-source: derived
-  /rooms/{name}/dialOut/stop:
-    post:
+  /release-phone-number/{id}:
+    delete:
       tags:
-      - DialOut
-      summary: Stop dial-out call
+      - Phone Numbers
+      summary: Release a purchased phone number
       parameters:
       - in: path
-        name: name
+        name: id
         required: true
         schema:
           type: string
       responses:
         '200':
-          description: Stopped
-      operationId: postRoomsByNameDialOutStop
+          description: Released
+      operationId: deleteReleasePhoneNumberById
+      x-operation-id-source: derived
+  /purchased-phone-numbers:
+    get:
+      tags:
+      - Phone Numbers
+      summary: List purchased phone numbers
+      responses:
+        '200':
+          description: Numbers
+      operationId: getPurchasedPhoneNumbers
       x-operation-id-source: derived
 components:
   securitySchemes:

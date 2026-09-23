@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Daily REST CallTransfer PhoneNumbers API
+  title: Daily REST Meeting Tokens API
   description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
   version: 1.0.0
 servers:
@@ -9,54 +9,42 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: PhoneNumbers
+- name: Meeting Tokens
 paths:
-  /list-available-numbers:
-    get:
-      tags:
-      - PhoneNumbers
-      summary: List available phone numbers to purchase
-      responses:
-        '200':
-          description: Available numbers
-  /buy-phone-number:
+  /meeting-tokens:
     post:
       tags:
-      - PhoneNumbers
-      summary: Purchase a phone number
+      - Meeting Tokens
+      summary: Create meeting token
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                number:
-                  type: string
+                properties:
+                  type: object
       responses:
         '200':
-          description: Purchased
-  /release-phone-number/{id}:
-    delete:
+          description: Token created
+      operationId: postMeetingTokens
+      x-operation-id-source: derived
+  /meeting-tokens/{meeting_token}:
+    get:
       tags:
-      - PhoneNumbers
-      summary: Release a purchased phone number
+      - Meeting Tokens
+      summary: Validate meeting token
       parameters:
       - in: path
-        name: id
+        name: meeting_token
         required: true
         schema:
           type: string
       responses:
         '200':
-          description: Released
-  /purchased-phone-numbers:
-    get:
-      tags:
-      - PhoneNumbers
-      summary: List purchased phone numbers
-      responses:
-        '200':
-          description: Numbers
+          description: Token data
+      operationId: getMeetingTokensByMeetingToken
+      x-operation-id-source: derived
 components:
   securitySchemes:
     bearerAuth:

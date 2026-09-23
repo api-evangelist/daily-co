@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Daily REST CallTransfer API
+  title: Daily REST Call Transfer API
   description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
   version: 1.0.0
 servers:
@@ -30,6 +30,8 @@ paths:
       responses:
         '200':
           description: Transferred
+      operationId: postRoomsByNameSipCallTransfer
+      x-operation-id-source: derived
   /rooms/{name}/sipRefer:
     post:
       tags:
@@ -49,6 +51,8 @@ paths:
       responses:
         '200':
           description: Refer issued
+      operationId: postRoomsByNameSipRefer
+      x-operation-id-source: derived
 components:
   securitySchemes:
     bearerAuth:

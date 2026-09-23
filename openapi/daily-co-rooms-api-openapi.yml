@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Daily REST CallTransfer Rooms API
+  title: Daily REST Rooms API
   description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
   version: 1.0.0
 servers:
@@ -32,6 +32,8 @@ paths:
       responses:
         '200':
           description: List of rooms
+      operationId: getRooms
+      x-operation-id-source: derived
     post:
       tags:
       - Rooms
@@ -54,6 +56,8 @@ paths:
       responses:
         '200':
           description: Room created
+      operationId: postRooms
+      x-operation-id-source: derived
   /rooms/{name}:
     parameters:
     - in: path
@@ -68,6 +72,8 @@ paths:
       responses:
         '200':
           description: Room
+      operationId: getRoomsByName
+      x-operation-id-source: derived
     post:
       tags:
       - Rooms
@@ -80,6 +86,8 @@ paths:
       responses:
         '200':
           description: Updated
+      operationId: postRoomsByName
+      x-operation-id-source: derived
     delete:
       tags:
       - Rooms
@@ -87,6 +95,8 @@ paths:
       responses:
         '200':
           description: Deleted
+      operationId: deleteRoomsByName
+      x-operation-id-source: derived
   /rooms/{name}/presence:
     get:
       tags:
@@ -101,6 +111,8 @@ paths:
       responses:
         '200':
           description: Presence
+      operationId: getRoomsByNamePresence
+      x-operation-id-source: derived
   /rooms/{name}/send-app-message:
     post:
       tags:
@@ -125,6 +137,8 @@ paths:
       responses:
         '200':
           description: Sent
+      operationId: postRoomsByNameSendAppMessage
+      x-operation-id-source: derived
   /rooms/{name}/get-session-data:
     get:
       tags:
@@ -139,6 +153,8 @@ paths:
       responses:
         '200':
           description: Session data
+      operationId: getRoomsByNameGetSessionData
+      x-operation-id-source: derived
   /rooms/{name}/set-session-data:
     post:
       tags:
@@ -158,6 +174,8 @@ paths:
       responses:
         '200':
           description: Stored
+      operationId: postRoomsByNameSetSessionData
+      x-operation-id-source: derived
   /rooms/{name}/eject:
     post:
       tags:
@@ -182,6 +200,8 @@ paths:
       responses:
         '200':
           description: Ejected
+      operationId: postRoomsByNameEject
+      x-operation-id-source: derived
   /rooms/{name}/update-permissions:
     post:
       tags:
@@ -201,6 +221,8 @@ paths:
       responses:
         '200':
           description: Updated
+      operationId: postRoomsByNameUpdatePermissions
+      x-operation-id-source: derived
   /batch/rooms:
     post:
       tags:
@@ -219,6 +241,8 @@ paths:
       responses:
         '200':
           description: Created
+      operationId: postBatchRooms
+      x-operation-id-source: derived
     delete:
       tags:
       - Rooms
@@ -236,6 +260,8 @@ paths:
       responses:
         '200':
           description: Deleted
+      operationId: deleteBatchRooms
+      x-operation-id-source: derived
 components:
   securitySchemes:
     bearerAuth:

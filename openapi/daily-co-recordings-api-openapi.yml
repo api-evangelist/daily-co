@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Daily REST CallTransfer Recordings API
+  title: Daily REST Recordings API
   description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
   version: 1.0.0
 servers:
@@ -28,6 +28,8 @@ paths:
       responses:
         '200':
           description: Recordings
+      operationId: getRecordings
+      x-operation-id-source: derived
   /recordings/{id}:
     parameters:
     - in: path
@@ -42,6 +44,8 @@ paths:
       responses:
         '200':
           description: Recording
+      operationId: getRecordingsById
+      x-operation-id-source: derived
     delete:
       tags:
       - Recordings
@@ -49,6 +53,8 @@ paths:
       responses:
         '200':
           description: Deleted
+      operationId: deleteRecordingsById
+      x-operation-id-source: derived
   /recordings/{id}/access-link:
     get:
       tags:
@@ -63,6 +69,8 @@ paths:
       responses:
         '200':
           description: Access link
+      operationId: getRecordingsByIdAccessLink
+      x-operation-id-source: derived
   /rooms/{name}/recordings/start:
     post:
       tags:
@@ -82,6 +90,8 @@ paths:
       responses:
         '200':
           description: Started
+      operationId: postRoomsByNameRecordingsStart
+      x-operation-id-source: derived
   /rooms/{name}/recordings/update:
     post:
       tags:
@@ -101,6 +111,8 @@ paths:
       responses:
         '200':
           description: Updated
+      operationId: postRoomsByNameRecordingsUpdate
+      x-operation-id-source: derived
   /rooms/{name}/recordings/stop:
     post:
       tags:
@@ -115,6 +127,8 @@ paths:
       responses:
         '200':
           description: Stopped
+      operationId: postRoomsByNameRecordingsStop
+      x-operation-id-source: derived
 components:
   securitySchemes:
     bearerAuth:
