@@ -45,6 +45,7 @@ tags:
 - Voice AI
 - Recording
 - Transcription
+- Voice
 tags_raw:
 - Daily
 - Realtime
@@ -55,6 +56,7 @@ tags_raw:
 - Voice AI
 - Recording
 - Transcription
+- Voice
 created: '2026-05-08'
 modified: '2026-05-08'
 specificationVersion: '0.23'
@@ -97,8 +99,6 @@ apis:
     url: https://docs.daily.co/reference/rest-api/webhooks
   - type: SDKs
     url: https://docs.daily.co/reference
-  - url: graphql/daily-co-graphql.md
-    type: GraphQL
 - aid: daily-co:pipecat-cloud
   name: Pipecat Cloud (Daily Bots) API
   description: >-
