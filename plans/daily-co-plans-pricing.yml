@@ -27,3 +27,26 @@ plans:
 - name: Pipecat Cloud
   price_text: Usage-based pricing, completely flexible stack
   period: none
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units:
+  - compute
+  plans:
+  - name: Video SDK
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Pipecat Cloud
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
