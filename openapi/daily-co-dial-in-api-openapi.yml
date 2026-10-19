@@ -1,34 +1,620 @@
 openapi: 3.2.0
 info:
-  title: Daily REST Dial In API
-  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
-  version: 1.0.0
+  title: Daily Dialin API
+  description: 'The Daily REST API offers the ability to manage the following:
+
+    - Overall Domain Configuration
+
+    - Individual Room creation and config management
+
+    - Meeting token creation and validation
+
+    - Recording and compositing management
+
+    - Meeting analytics
+
+    - Logs and metrics
+
+    - Real-time presence
+
+
+    Please reach out to help@daily.co if we can help with anything'
+  version: 1.1.1
+  contact:
+    name: Daily
+    url: https://docs.daily.co
+    email: help@daily.co
 servers:
 - url: https://api.daily.co/v1
-  description: Daily REST API base URL
 security:
 - bearerAuth: []
 tags:
 - name: Dial In
 paths:
-  /dialin/pinlessCallUpdate:
+  /sip-trunk:
     post:
+      summary: /sip-trunk
+      description: 'Create a SIP trunk for your domain. Returns the `sip_uri` to point your carrier at, plus the generated `hmac`. `notification.webhook_url` is required and must be LIVE: create sends a signed one-shot `sip_trunk.test` POST that must return 2xx, or the create fails with 400. A trunk must be gated by `allowed_ips`/`credential` or explicitly `is_open: true`.'
+      operationId: CreateSipTrunk
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - trunk_name
+              - room_template
+              - notification
+              properties:
+                trunk_name:
+                  type: string
+                  description: Lowercase alphanumeric, 3-63 chars, no hyphens; the combined `<domain>-<trunk_name>` label must be <= 63 chars. Immutable after create.
+                  example: support
+                description:
+                  type: string
+                  description: Free text (max 2048). Echoed to your webhook as trunk.description.
+                room_template:
+                  type: object
+                  additionalProperties: true
+                  description: Room-creation properties, passed to room create. An optional `sip` block (applied at dial-in start) may set display name, codecs, dialin_config, etc. Absolute `exp`/`nbf` are rejected - use trunk_config.exp_offset.
+                notification:
+                  type: object
+                  required:
+                  - webhook_url
+                  properties:
+                    webhook_url:
+                      type: string
+                      format: uri
+                      description: HTTPS URL Daily POSTs sip_trunk.incoming to. Required.
+                    hmac:
+                      type: string
+                      description: Base64 secret for the X-Siptrunk-Signature header. Optional - Daily generates one if omitted.
+                trunk_config:
+                  type: object
+                  properties:
+                    allowed_ips:
+                      type: array
+                      items:
+                        type: string
+                      description: IPv4 addresses or canonical CIDR blocks (max 25) allowed to send INVITEs.
+                    credential:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        password:
+                          type: string
+                          description: Write-only (never returned by GET). 12-64 chars, at least one letter and one digit.
+                    is_open:
+                      type: boolean
+                      default: false
+                      description: Set true to accept calls with NO admission control (dev/testing only). A trunk must be gated (allowed_ips and/or credential) XOR explicitly open.
+                    exp_offset:
+                      type: integer
+                      default: 3600
+                      description: Provisioned-room lifetime in seconds (60-86400).
+                enabled:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          description: The created SIP trunk.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  description:
+                    type: string
+                  trunk_name:
+                    type: string
+                  sip_uri:
+                    type: string
+                    example: sip:examplecorp-support.siptrunk.sip-us.daily.co
+                  enabled:
+                    type: boolean
+                  config:
+                    type: object
+                    additionalProperties: true
+        '400':
+          $ref: '#/components/responses/400'
       tags:
       - Dial In
-      summary: Update dial-in status
+      security:
+      - bearerAuth: []
+    get:
+      summary: /sip-trunk
+      description: List the SIP trunks for your domain (paginated).
+      operationId: ListSipTrunks
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+        description: Max results (1-100, default 20).
+      - name: starting_after
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: ending_before
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: trunk_name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Substring match.
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Substring match.
+      - name: enabled
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: A page of SIP trunks.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_count:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        description:
+                          type: string
+                        trunk_name:
+                          type: string
+                        sip_uri:
+                          type: string
+                        enabled:
+                          type: boolean
+                        config:
+                          type: object
+                          additionalProperties: true
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+  /sip-trunk/{id}:
+    get:
+      summary: /sip-trunk/{id}
+      description: Fetch one SIP trunk by id.
+      operationId: GetSipTrunk
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The SIP trunk.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  description:
+                    type: string
+                  trunk_name:
+                    type: string
+                  sip_uri:
+                    type: string
+                  enabled:
+                    type: boolean
+                  config:
+                    type: object
+                    additionalProperties: true
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+    put:
+      summary: /sip-trunk/{id}
+      description: 'Update a SIP trunk (partial overlay). `trunk_name` is immutable. In `notification`, `hmac: null` ROTATES the secret (Daily regenerates a fresh one); a value sets it; omit to keep the current one. Any update touching `notification` re-sends the signed `sip_trunk.test` probe (with the final hmac) - the endpoint must return 2xx. `trunk_config.credential: null` clears the credential. Admission must remain valid (gated XOR is_open).'
+      operationId: UpdateSipTrunk
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                room_template:
+                  type: object
+                  additionalProperties: true
+                notification:
+                  type: object
+                  properties:
+                    webhook_url:
+                      type: string
+                      format: uri
+                    hmac:
+                      type:
+                      - string
+                      - 'null'
+                      description: A base64 value sets it; null rotates it (fresh secret); omit to keep the current one.
+                trunk_config:
+                  type: object
+                  properties:
+                    allowed_ips:
+                      type: array
+                      items:
+                        type: string
+                    credential:
+                      type:
+                      - object
+                      - 'null'
+                      properties:
+                        username:
+                          type: string
+                        password:
+                          type: string
+                    is_open:
+                      type: boolean
+                    exp_offset:
+                      type: integer
+                enabled:
+                  type: boolean
+      responses:
+        '200':
+          description: The updated SIP trunk.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  description:
+                    type: string
+                  trunk_name:
+                    type: string
+                  sip_uri:
+                    type: string
+                  enabled:
+                    type: boolean
+                  config:
+                    type: object
+                    additionalProperties: true
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+    delete:
+      summary: /sip-trunk/{id}
+      description: Delete a SIP trunk (and its Kamailio credential, if any).
+      operationId: DeleteSipTrunk
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted.
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+  /sip-clients:
+    post:
+      summary: /sip-clients
+      description: Register a plain SIP client for your domain. Returns the client's SIP URI and a generated `password`, shown ONCE and never returned again. Provide a `username` (a room-style name, optionally suffixed with `.`); supply your own `password` or let one be generated. An optional `expires_in_seconds` sets a TTL after which the client is removed automatically - omit it for a long-lived client. Subject to a per-domain client limit.
+      operationId: CreateSipClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              properties:
+                username:
+                  type: string
+                  description: 'SIP username: letters, digits, ''-'' and ''_'' (a room name), optionally followed by .<number> (e.g. myroom.0). Up to 64 chars. Must be unique within your domain.'
+                  example: myroom.0
+                password:
+                  type: string
+                  description: Optional. 12-64 chars with at least one letter and one digit. If omitted, a password is generated and returned once in the response.
+                expires_in_seconds:
+                  type: integer
+                  description: Optional TTL in seconds (60-2592000). The client is removed automatically after it elapses. Omit for a long-lived client.
+      responses:
+        '200':
+          description: The created SIP client. `password` is returned only here.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  domain:
+                    type: string
+                    example: examplecorp.sip-us.daily.co
+                  sip_uri:
+                    type: string
+                    example: sip:myroom.0@examplecorp.sip-us.daily.co
+                  password:
+                    type: string
+                  expires_at:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          description: The domain's SIP client limit has been reached.
+        '409':
+          description: A SIP client with that username already exists in the domain.
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+    get:
+      summary: /sip-clients
+      description: List the SIP clients registered for your domain (paginated). Passwords are never returned.
+      operationId: ListSipClients
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+        description: Max results (1-100, default 50).
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+        description: Number of results to skip (default 0).
+      responses:
+        '200':
+          description: A page of SIP clients.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sip_clients:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        domain:
+                          type: string
+                        sip_uri:
+                          type: string
+                        expires_at:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+  /sip-clients/{username}:
+    get:
+      summary: /sip-clients/{username}
+      description: Fetch one SIP client by username. The password is never returned.
+      operationId: GetSipClient
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The SIP client.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  domain:
+                    type: string
+                  sip_uri:
+                    type: string
+                  expires_at:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+        '404':
+          description: No such SIP client in your domain.
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+    delete:
+      summary: /sip-clients/{username}
+      description: Delete a SIP client. After deletion it can no longer register or place calls.
+      operationId: DeleteSipClient
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+        '404':
+          description: No such SIP client in your domain.
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+  /sip-clients/{username}/rotate:
+    post:
+      summary: /sip-clients/{username}/rotate
+      description: Rotate a SIP client's password. Supply a new `password` or let one be generated; the new password is returned ONCE. The client's SIP URI and expiry are unchanged.
+      operationId: RotateSipClient
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: Optional. 12-64 chars with at least one letter and one digit. If omitted, a new password is generated.
+      responses:
+        '200':
+          description: The client with its new password (returned only here).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  domain:
+                    type: string
+                  sip_uri:
+                    type: string
+                  password:
+                    type: string
+                  expires_at:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+        '404':
+          description: No such SIP client in your domain.
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
+  /dialin/pinlessCallUpdate:
+    post:
+      summary: /dialin/pinlessCallUpdate
+      description: Direct a SIP or PSTN call on hold to a specified SIP URI associated to a Daily Room.
+      operationId: PinlessCallUpdate
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              properties:
+                callId:
+                  type: string
+                  description: CallId is represented by UUID and represents the sessionId in the SIP Network. This is obtained from the [webhook payload](/guides/features/dial-in-dial-out/sip-interconnect-pinless).
+                callDomain:
+                  type: string
+                  description: Call Domain is represented by UUID and represents your Daily Domain on the SIP Network. This is obtained from the [webhook payload](/guides/features/dial-in-dial-out/sip-interconnect-pinless).
+                sipUri:
+                  type: string
+                  description: This SIP URI is associated to the Daily Room that you want to forward the SIP Interconnect call to.
       responses:
         '200':
-          description: Updated
-      operationId: postDialinPinlessCallUpdate
-      x-operation-id-source: derived
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    ok: 'true'
+        '400':
+          $ref: '#/components/responses/400'
+      deprecated: false
+      tags:
+      - Dial In
+      security:
+      - bearerAuth: []
 components:
+  responses:
+    '400':
+      description: '400'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              info:
+                type: string
+          examples:
+            Result:
+              value:
+                error: invalid-request-error
+                info: missing required field
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      description: API key passed as a Bearer token in the Authorization header.

@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.daily.co/openapi.json",
+ "final": "https://docs.daily.co/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 452755,
+ "sha256": "c484c8ebdcfb7726d7795c0a4a6a91b1107a6e021e91642b508a4ca669bfd841",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

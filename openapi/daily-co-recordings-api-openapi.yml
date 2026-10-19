@@ -1,11 +1,31 @@
 openapi: 3.2.0
 info:
-  title: Daily REST Recordings API
-  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
-  version: 1.0.0
+  title: Daily Recordings API
+  description: 'The Daily REST API offers the ability to manage the following:
+
+    - Overall Domain Configuration
+
+    - Individual Room creation and config management
+
+    - Meeting token creation and validation
+
+    - Recording and compositing management
+
+    - Meeting analytics
+
+    - Logs and metrics
+
+    - Real-time presence
+
+
+    Please reach out to help@daily.co if we can help with anything'
+  version: 1.1.1
+  contact:
+    name: Daily
+    url: https://docs.daily.co
+    email: help@daily.co
 servers:
 - url: https://api.daily.co/v1
-  description: Daily REST API base URL
 security:
 - bearerAuth: []
 tags:
@@ -13,125 +33,546 @@ tags:
 paths:
   /recordings:
     get:
-      tags:
-      - Recordings
-      summary: List recordings
+      summary: /recordings
+      description: List recordings
+      operationId: ListRecordings
       parameters:
-      - in: query
-        name: limit
+      - name: limit
+        in: query
+        required: false
+        style: form
+        explode: true
         schema:
           type: integer
-      - in: query
-        name: room_name
+          format: int32
+      - name: ending_before
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: starting_after
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: room_name
+        in: query
+        required: false
+        style: form
+        explode: true
         schema:
           type: string
       responses:
         '200':
-          description: Recordings
-      operationId: getRecordings
-      x-operation-id-source: derived
-  /recordings/{id}:
-    parameters:
-    - in: path
-      name: id
-      required: true
-      schema:
-        type: string
-    get:
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_count:
+                    type: integer
+                    example: 3
+                    default: 0
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: bfd0c52b-3a2a-4269-80ce-cae9eef55536
+                        start_ts:
+                          type: integer
+                          example: 1548790974
+                          default: 0
+                        status:
+                          type: string
+                          example: in-progress
+                        max_participants:
+                          type: integer
+                          example: 2
+                          default: 0
+                        share_token:
+                          type: string
+                          example: NcWgEiJuqD8v
+                        s3key:
+                          type: string
+                          example: mydomain/test-recording-room/11245260397
+                        mtgSessionId:
+                          type: string
+                          example: 257764e6-c74e-4c30-944a-a887a03173a3
+                        storage_provider:
+                          type: string
+                          enum:
+                          - aws
+                          - oci
+                          description: The storage provider the recording was written to. `aws` for Amazon S3 (including Daily's own storage), `oci` for OCI Object Storage.
+                          example: aws
+              examples:
+                Result:
+                  value:
+                    total_count: 3
+                    data:
+                    - id: bfd0c52b-3a2a-4269-80ce-cae9eef55536
+                      start_ts: 1548790974
+                      status: in-progress
+                      max_participants: 2
+                      share_token: NcWgEiJuqD8v
+                      s3key: mydomain/test-recording-room/11245260397
+                      mtgSessionId: 411c96b4-c13b-4f35-b639-4fda02863743
+                      storage_provider: aws
+                    - id: 0cb313e1-211f-4be0-833d-8c7305b19902
+                      start_ts: 1548789650
+                      status: finished
+                      max_participants: 2
+                      duration: 277
+                      share_token: TivXjlD22QQt
+                      s3key: mydomain/test-recording-room/277255707741,
+                      mtgSessionId: 1117a5d8-f6c4-4ff5-a9ec-2a324666f0da
+                      storage_provider: aws
+                    - id: 89a4a0a4-03cf-454f-b874-e83d91b0296f
+                      start_ts: 1548788621
+                      status: finished
+                      max_participants: 1
+                      duration: 53
+                      share_token: QehWXiO2zMMf
+                      s3key: mydomain/test-recording-room/11245260397,
+                      mtgSessionId: 257764e6-c74e-4c30-944a-a887a03173a3,
+                      storage_provider: aws
+        '400':
+          $ref: '#/components/responses/400'
+      deprecated: false
       tags:
       - Recordings
-      summary: Get recording details
+      security:
+      - bearerAuth: []
+  /recordings/test-oci-bucket:
+    get:
+      summary: /recordings/test-oci-bucket
+      description: 'Verify that an OCI bucket configuration works, by uploading a small test file (`daily-co-test-upload.txt`) to it through the OCI S3 compatibility API.
+
+
+        Unlike S3 buckets, an OCI bucket configuration is **not** checked when you set it — the `Admit` policy may not have propagated yet (see the custom OCI storage guide). Setting the property therefore succeeds even when the bucket is not usable, and this endpoint is how you confirm the setup before relying on it.
+
+
+        Only OCI buckets can be tested. Calling this against a bucket whose `storage_provider` is `aws` returns a `400`.
+
+
+        On success the response echoes the tested configuration under a key matching the `property` query parameter — `recordings_bucket` by default, or `transcription_bucket`. A `download_link` and `expires` are returned only when the configuration has `allow_api_access` set to `true`; the link is valid for one hour. Storage credentials are never included in the response.'
+      operationId: TestOciBucket
+      parameters:
+      - name: property
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: Which bucket property to test. Defaults to `recordings_bucket`.
+        schema:
+          type: string
+          enum:
+          - recordings_bucket
+          - transcription_bucket
+          default: recordings_bucket
+      - name: roomName
+        in: query
+        required: false
+        style: form
+        explode: true
+        description: 'Test the property set on this room instead of the domain-level property. There is no fallback to the domain configuration: if the room does not set the property, the request returns a `400`.'
+        schema:
+          type: string
+      deprecated: false
+      tags:
+      - Recordings
+      security:
+      - bearerAuth: []
       responses:
         '200':
-          description: Recording
-      operationId: getRecordingsById
-      x-operation-id-source: derived
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  recordings_bucket:
+                    allOf:
+                    - $ref: '#/components/schemas/recordings_bucket'
+                    description: The configuration that was tested. Returned **only** when `property` is `recordings_bucket` (the default). Exactly one of `recordings_bucket` or `transcription_bucket` is present in a response, never both.
+                  transcription_bucket:
+                    allOf:
+                    - $ref: '#/components/schemas/transcription_bucket'
+                    description: The configuration that was tested. Returned **only** when `property` is `transcription_bucket`. Exactly one of `recordings_bucket` or `transcription_bucket` is present in a response, never both.
+                  test_file_key:
+                    type: string
+                    description: The object key of the test file written to your bucket.
+                    example: daily-co-test-upload.txt
+                  download_link:
+                    type: string
+                    description: A presigned link to the test file, valid for one hour. Only a real link when `allow_api_access` is `true`; otherwise a short string explaining that no link was generated.
+                    example: https://axaxnpcrorw5.compat.objectstorage.us-ashburn-1.oraclecloud.com/my-daily-recordings/daily-co-test-upload.txt?...
+                  expires:
+                    type: integer
+                    description: When `download_link` expires, as a unix timestamp. Returned only when `allow_api_access` is `true`.
+                    example: 1787234330
+              examples:
+                Result:
+                  value:
+                    success: true
+                    recordings_bucket:
+                      storage_provider: oci
+                      namespace: axaxnpcrorw5
+                      bucket_region: eu-frankfurt-1
+                      bucket_name: my-daily-recordings
+                      allow_api_access: true
+                      allow_streaming_from_bucket: false
+                    test_file_key: daily-co-test-upload.txt
+                    download_link: https://axaxnpcrorw5.compat.objectstorage.eu-frankfurt-1.oraclecloud.com/my-daily-recordings/daily-co-test-upload.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=%3Credacted%3E%2F20260820%2Feu-frankfurt-1%2Fs3%2Faws4_request&X-Amz-Date=20260820T125850Z&X-Amz-Expires=3600&X-Amz-Signature=%3Credacted%3E&X-Amz-SignedHeaders=host
+                    expires: 1787234330
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          description: 404 — the room named by `roomName` does not exist in this domain.
+  /recordings/{recording_id}:
+    get:
+      summary: recordings/:id
+      description: Get info about a recording
+      operationId: GetRecordingInfo
+      parameters:
+      - name: recording_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 0cb313e1-211f-4be0-833d-8c7305b19902
+                    description: A unique, opaque ID for this object. You can use this ID in API calls, and in paginated list operations.
+                  room_name:
+                    type: string
+                    description: The name of the [room](/reference/rest-api/rooms).
+                  start_ts:
+                    type: integer
+                    example: 1548789650
+                    description: When the recording started. This is a unix timestamp (seconds since the epoch).
+                  status:
+                    type: string
+                    example: finished
+                    enum:
+                    - finished
+                    - in-progress
+                    - canceled
+                  max_participants:
+                    type: integer
+                    example: 2
+                    description: The maximum number of participants that were ever in this room together during the meeting session that was recorded.
+                  duration:
+                    type: integer
+                    example: 277
+                    description: How many seconds long the recording is, approximately. This property is not returned for recordings that are in-progress.
+                  share_token:
+                    type: string
+                    example: TivXjlD22QQt
+                    description: Deprecated.
+                  s3key:
+                    type: string
+                    example: mydomain/test-recording-room/11245260397
+                    description: The S3 Key associated with this recording.
+                  mtgSessionId:
+                    type: string
+                    example: 257764e6-c74e-4c30-944a-a887a03173a3
+                    description: The meeting session ID for this recording.
+                  tracks:
+                    type: array
+                    description: If the recording is a raw-tracks recording, a tracks field will be provided. If role permissions have been removed, the tracks field may be null.
+                    items:
+                      type: object
+                      properties:
+                        size:
+                          type: integer
+                          example: 15620
+                          description: The size of the file.
+                        type:
+                          type: string
+                          example: audio
+                          enum:
+                          - audio
+                          - video
+                          description: The type of track file, audio or video.
+                        s3key:
+                          type: string
+                          example: mydomain/test-recording-room/11245260397-audio
+                          description: The S3 Key associated with this partiicular track file.
+                  storage_provider:
+                    type: string
+                    enum:
+                    - aws
+                    - oci
+                    description: The storage provider the recording was written to. `aws` for Amazon S3 (including Daily's own storage), `oci` for OCI Object Storage.
+                    example: aws
+              examples:
+                Result:
+                  value:
+                    id: 0cb313e1-211f-4be0-833d-8c7305b19902
+                    start_ts: 1548789650
+                    status: finished
+                    max_participants: 2
+                    duration: 277
+                    share_token: TivXjlD22QQt
+                    s3key: mydomain/test-recording-room/11245260397
+                    mtgSessionId: 257764e6-c74e-4c30-944a-a887a03173a3
+                    storage_provider: aws
+        '400':
+          $ref: '#/components/responses/400'
+      deprecated: false
+      tags:
+      - Recordings
+      security:
+      - bearerAuth: []
     delete:
-      tags:
-      - Recordings
-      summary: Delete recording
+      summary: recordings/:id
+      description: Delete a recording
+      operationId: DeleteRecording
+      parameters:
+      - name: recording_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       responses:
         '200':
-          description: Deleted
-      operationId: deleteRecordingsById
-      x-operation-id-source: derived
-  /recordings/{id}/access-link:
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                  id:
+                    type: string
+                  s3_bucket:
+                    type: string
+                  s3_region:
+                    type: string
+                  s3_key:
+                    type: string
+                  storage_provider:
+                    type: string
+                    enum:
+                    - aws
+                    - oci
+                    description: The storage provider the recording was written to. `aws` for Amazon S3 (including Daily's own storage), `oci` for OCI Object Storage. Returned only for recordings stored in a customer-managed bucket; absent for recordings held in Daily's own storage.
+                    example: aws
+              examples:
+                Result:
+                  value:
+                    deleted: true
+                    id: 0868d783-69c0-4556-b39e-0fbd6bf2bd45
+                    s3_bucket: daily-meeting-recordings
+                    s3_region: us-west-2
+                    s3_key: mydomain/raw-tracks/1234567890
+        '400':
+          $ref: '#/components/responses/400'
+      deprecated: false
+      tags:
+      - Recordings
+      security:
+      - bearerAuth: []
+  /recordings/{recording_id}/access-link:
     get:
-      tags:
-      - Recordings
-      summary: Generate recording download link
+      summary: recordings/:id/access-link
+      description: 'Generate an access link for a recording. The `download_link` is a short-lived signed URL: see the access links guide for more information.'
+      operationId: GetRecordingLink
       parameters:
-      - in: path
-        name: id
+      - name: recording_id
+        in: path
         required: true
+        style: simple
+        explode: false
         schema:
           type: string
+      - name: valid_for_secs
+        in: query
+        description: 'How long the returned `download_link` remains valid, in seconds. Accepts 900 (15 minutes) through 43200 (12 hours). A value outside that range returns a `400`.
+
+
+          Read the response''s `expires` field rather than adding `valid_for_secs` to the current time. `expires` is the Unix timestamp at which the link stops working, and it is authoritative when Daily grants a shorter lifetime than the one requested.
+
+
+          Recordings stored in your own Amazon S3 bucket have a maximum link lifetime of 3600 seconds. A larger `valid_for_secs` still returns a `200`, with `expires` set one hour out and `validity_capped` set to `true`. Request a new link when you need the file again. Recordings in Daily storage and in customer-owned OCI Object Storage buckets are not affected. See [Custom S3 storage](/docs/guides/features/recording/custom-s3-storage#download-link-lifetime).'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          minimum: 900
+          maximum: 43200
+          default: 3600
       responses:
         '200':
-          description: Access link
-      operationId: getRecordingsByIdAccessLink
-      x-operation-id-source: derived
-  /rooms/{name}/recordings/start:
-    post:
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  download_link:
+                    $ref: '#/components/schemas/signed_recording_link'
+                  expires:
+                    type: integer
+                    example: 1548809176
+                    default: 0
+                  storage_provider:
+                    type: string
+                    enum:
+                    - aws
+                    - oci
+                    description: The storage provider the recording was written to. `aws` for Amazon S3 (including Daily's own storage), `oci` for OCI Object Storage.
+                    example: aws
+                  validity_capped:
+                    type: boolean
+                    description: Present and `true` only when the requested `valid_for_secs` exceeded the maximum lifetime allowed for where this recording is stored, and the link was signed for the shorter lifetime instead. Absent otherwise. `expires` always reports the lifetime actually granted, so a client that reads `expires` needs no special handling for this case.
+                    example: true
+              examples:
+                Result:
+                  value:
+                    download_link: https://b.daily.co/recordings/api-demo/hello/1548790973821?dl=api-demo%2Fhello%2F1548790973821.webm&Expires=1548809176&Signature=Gt5RhZ0kXksNriqmlm~T9hbq-asExampleSignature_&Key-Pair-Id=K1EXAMPLEKEYPAIR
+                    expires: 1548809176
+                    storage_provider: aws
+        '400':
+          $ref: '#/components/responses/400'
+      deprecated: false
       tags:
       - Recordings
-      summary: Start recording in room
-      parameters:
-      - in: path
-        name: name
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Started
-      operationId: postRoomsByNameRecordingsStart
-      x-operation-id-source: derived
-  /rooms/{name}/recordings/update:
-    post:
-      tags:
-      - Recordings
-      summary: Update recording in room
-      parameters:
-      - in: path
-        name: name
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Updated
-      operationId: postRoomsByNameRecordingsUpdate
-      x-operation-id-source: derived
-  /rooms/{name}/recordings/stop:
-    post:
-      tags:
-      - Recordings
-      summary: Stop recording in room
-      parameters:
-      - in: path
-        name: name
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Stopped
-      operationId: postRoomsByNameRecordingsStop
-      x-operation-id-source: derived
+      security:
+      - bearerAuth: []
 components:
+  schemas:
+    transcription_bucket:
+      type: object
+      description: 'Configures an S3 bucket in which to store transcriptions.
+
+        See the [S3 bucket guide](/guides/products/live-streaming-recording/storing-recordings-in-a-custom-s3-bucket) for more information.
+
+
+        Supports both Amazon S3 and OCI Object Storage; select with `storage_provider`. See the [custom OCI storage guide](/docs/guides/features/recording/custom-oci-storage) for the OCI setup process.'
+      properties:
+        storage_provider:
+          type: string
+          enum:
+          - aws
+          - oci
+          default: aws
+          description: 'Which storage provider the bucket belongs to. Defaults to `aws` when omitted, so existing configurations are unaffected. Set to `oci` to store transcriptions in an Oracle Cloud Infrastructure Object Storage bucket — see the [custom OCI storage guide](/docs/guides/features/recording/custom-oci-storage). OCI buckets are not self-serve: Daily must provision credentials for your domain first.'
+          example: aws
+        bucket_name:
+          type: string
+          description: The name of the Amazon S3 bucket to use for transcription storage.
+          example: my-daily-recording
+        bucket_region:
+          type: string
+          description: The region which the specified S3 bucket is located in. When `storage_provider` is `oci` this must be an OCI region such as `us-ashburn-1`, not an AWS region.
+          example: ap-south-1
+        namespace:
+          type: string
+          description: '**OCI only.** Your OCI Object Storage namespace. Required when `storage_provider` is `oci`, and rejected when it is `aws`. Find it in the OCI Console under Tenancy details.'
+          example: axaxnpcrorw5
+        assume_role_arn:
+          type: string
+          description: '**AWS only.** The Amazon Resource Name (ARN) of the role Daily should assume when storing the transcription in the specified bucket. Required when `storage_provider` is `aws`, and rejected when it is `oci`.'
+          example: arn:aws:iam::555555555555:role/DailyS3AccessRole
+        allow_api_access:
+          type: boolean
+          description: Whether the transcription should be accessible using Daily's API.
+    recordings_bucket:
+      type: object
+      description: 'Configures an S3 bucket in which to store recordings.
+
+        See the [S3 bucket guide](/guides/products/live-streaming-recording/storing-recordings-in-a-custom-s3-bucket) for more information.
+
+
+        Properties:
+
+
+        Supports both Amazon S3 and OCI Object Storage; select with `storage_provider`. See the [custom OCI storage guide](/docs/guides/features/recording/custom-oci-storage) for the OCI setup process.'
+      properties:
+        storage_provider:
+          type: string
+          enum:
+          - aws
+          - oci
+          default: aws
+          description: 'Which storage provider the bucket belongs to. Defaults to `aws` when omitted, so existing configurations are unaffected. Set to `oci` to store recordings in an Oracle Cloud Infrastructure Object Storage bucket — see the [custom OCI storage guide](/docs/guides/features/recording/custom-oci-storage). OCI buckets are not self-serve: Daily must provision credentials for your domain first.'
+          example: aws
+        bucket_name:
+          type: string
+          description: The name of the Amazon S3 bucket to use for recording storage.
+          example: my-daily-recording
+        bucket_region:
+          type: string
+          description: The region which the specified S3 bucket is located in. When `storage_provider` is `oci` this must be an OCI region such as `us-ashburn-1`, not an AWS region.
+          example: ap-south-1
+        namespace:
+          type: string
+          description: '**OCI only.** Your OCI Object Storage namespace. Required when `storage_provider` is `oci`, and rejected when it is `aws`. Find it in the OCI Console under Tenancy details.'
+          example: axaxnpcrorw5
+        assume_role_arn:
+          type: string
+          description: '**AWS only.** The Amazon Resource Name (ARN) of the role Daily should assume when storing the recording in the specified bucket. Required when `storage_provider` is `aws`, and rejected when it is `oci`.'
+          example: arn:aws:iam::555555555555:role/DailyS3AccessRole
+        allow_api_access:
+          type: boolean
+          description: Controls whether the recording will be accessible using Daily's API.
+        allow_streaming_from_bucket:
+          type: boolean
+          description: 'Specifies which [`Content-Disposition`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) response header the recording link retrieved from the [access-link](/products/rest-api/recordings/get-recording-link) REST API endpoint will have. If `allow_streaming_from_bucket` is `false`, the header will be `Content-Dispostion: attachment`. If `allow_streaming_from_bucket` is `true`, the header will be `Content-Disposition: inline`.
+
+            To play the recording link directly in the browser or embed it in a video player, set this property to `true`. Defaults to `false`'
+    signed_recording_link:
+      type: string
+      description: 'A short-lived signed download URL that must be used exactly as returned.
+
+        See the [access links guide](/docs/rest-api/access-links) for more information.'
+      example: https://b.daily.co/recordings/api-demo/hello/1548790973821?dl=api-demo%2Fhello%2F1548790973821.webm&Expires=1548809176&Signature=Gt5RhZ0kXksNriqmlm~T9hbq-asExampleSignature_&Key-Pair-Id=K1EXAMPLEKEYPAIR
+  responses:
+    '400':
+      description: '400'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              info:
+                type: string
+          examples:
+            Result:
+              value:
+                error: invalid-request-error
+                info: missing required field
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      description: API key passed as a Bearer token in the Authorization header.

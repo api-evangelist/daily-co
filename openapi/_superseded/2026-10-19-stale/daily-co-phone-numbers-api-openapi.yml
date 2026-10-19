@@ -1,0 +1,73 @@
+openapi: 3.2.0
+info:
+  title: Daily REST Phone Numbers API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Phone Numbers
+paths:
+  /list-available-numbers:
+    get:
+      tags:
+      - Phone Numbers
+      summary: List available phone numbers to purchase
+      responses:
+        '200':
+          description: Available numbers
+      operationId: getListAvailableNumbers
+      x-operation-id-source: derived
+  /buy-phone-number:
+    post:
+      tags:
+      - Phone Numbers
+      summary: Purchase a phone number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: string
+      responses:
+        '200':
+          description: Purchased
+      operationId: postBuyPhoneNumber
+      x-operation-id-source: derived
+  /release-phone-number/{id}:
+    delete:
+      tags:
+      - Phone Numbers
+      summary: Release a purchased phone number
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Released
+      operationId: deleteReleasePhoneNumberById
+      x-operation-id-source: derived
+  /purchased-phone-numbers:
+    get:
+      tags:
+      - Phone Numbers
+      summary: List purchased phone numbers
+      responses:
+        '200':
+          description: Numbers
+      operationId: getPurchasedPhoneNumbers
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.

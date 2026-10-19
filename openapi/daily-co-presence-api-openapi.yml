@@ -1,11 +1,31 @@
 openapi: 3.2.0
 info:
-  title: Daily REST Presence API
-  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
-  version: 1.0.0
+  title: Daily Presence API
+  description: 'The Daily REST API offers the ability to manage the following:
+
+    - Overall Domain Configuration
+
+    - Individual Room creation and config management
+
+    - Meeting token creation and validation
+
+    - Recording and compositing management
+
+    - Meeting analytics
+
+    - Logs and metrics
+
+    - Real-time presence
+
+
+    Please reach out to help@daily.co if we can help with anything'
+  version: 1.1.1
+  contact:
+    name: Daily
+    url: https://docs.daily.co
+    email: help@daily.co
 servers:
 - url: https://api.daily.co/v1
-  description: Daily REST API base URL
 security:
 - bearerAuth: []
 tags:
@@ -13,17 +33,73 @@ tags:
 paths:
   /presence:
     get:
-      tags:
-      - Presence
-      summary: Retrieve presence
+      summary: /presence
+      operationId: GetPresence
       responses:
         '200':
-          description: Presence
-      operationId: getPresence
-      x-operation-id-source: derived
+          description: '200'
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A map of room name to array of currently present participants.
+                additionalProperties:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      room:
+                        type: string
+                        description: The room name.
+                      id:
+                        type: string
+                        description: Unique participant session ID.
+                      userId:
+                        type:
+                        - string
+                        - 'null'
+                        description: The user ID if set on the meeting token, otherwise null.
+                      userName:
+                        type:
+                        - string
+                        - 'null'
+                        description: Display name of the participant.
+                      mtgSessionId:
+                        type: string
+                        description: The meeting session ID.
+                      joinTime:
+                        type: string
+                        format: date-time
+                        description: ISO 8601 timestamp of when this participant joined.
+                      duration:
+                        type: integer
+                        description: How long this participant has been in the meeting, in seconds.
+                x-additionalPropertiesName: room
+              examples:
+                Result:
+                  value:
+                    my-room:
+                    - room: my-room
+                      id: aaaaaaaa-0000-0000-0000-000000000001
+                      userId: null
+                      userName: Alice
+                      mtgSessionId: 16e9701a-93e0-4933-83c9-223e7c40d552
+                      joinTime: '2026-03-27T16:37:22.000Z'
+                      duration: 22
+                    - room: my-room
+                      id: aaaaaaaa-0000-0000-0000-000000000002
+                      userId: null
+                      userName: Bob
+                      mtgSessionId: 16e9701a-93e0-4933-83c9-223e7c40d552
+                      joinTime: '2026-03-27T16:37:25.000Z'
+                      duration: 19
+      deprecated: false
+      tags:
+      - Presence
+      security:
+      - bearerAuth: []
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      description: API key passed as a Bearer token in the Authorization header.

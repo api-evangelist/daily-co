@@ -120,28 +120,6 @@ apis:
     url: https://docs.pipecat.daily.co/
   - type: SourceCode
     url: https://github.com/pipecat-ai/pipecat
-- aid: daily-co:daily-co-calltransfer-api
-  name: Daily CallTransfer API
-  description: The CallTransfer API from Daily — 2 operation(s) for calltransfer.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - CallTransfer
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-calltransfer-api-openapi.yml
-- aid: daily-co:daily-co-dialout-api
-  name: Daily DialOut API
-  description: The DialOut API from Daily — 3 operation(s) for dialout.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - Dial-Out
-  tags_raw:
-  - DialOut
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-dialout-api-openapi.yml
 - aid: daily-co:daily-co-domain-api
   name: Daily Domain API
   description: The Domain API from Daily — 1 operation(s) for domain.
@@ -194,16 +172,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-rooms-api-openapi.yml
-- aid: daily-co:daily-co-transcription-api
-  name: Daily Transcription API
-  description: The Transcription API from Daily — 6 operation(s) for transcription.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - Transcription
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-transcription-api-openapi.yml
 - aid: daily-co:daily-co-webhooks-api
   name: Daily Webhooks API
   description: The Webhooks API from Daily — 2 operation(s) for webhooks.
@@ -216,26 +184,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-webhooks-api-openapi.yml
-- aid: daily-co:daily-co-dial-in-api
-  name: Daily Dial In API
-  description: The Dial In API from Daily — 1 operation(s) for dial in.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - Dial In
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-dial-in-api-openapi.yml
-- aid: daily-co:daily-co-live-streaming-api
-  name: Daily Live Streaming API
-  description: The Live Streaming API from Daily — 3 operation(s) for live streaming.
-  humanURL: https://docs.daily.co/reference/rest-api
-  baseURL: https://api.daily.co/v1
-  tags:
-  - Live Streaming
-  properties:
-  - type: OpenAPI
-    url: openapi/daily-co-live-streaming-api-openapi.yml
 - aid: daily-co:daily-co-meeting-tokens-api
   name: Daily Meeting Tokens API
   description: The Meeting Tokens API from Daily — 2 operation(s) for meeting tokens.
@@ -256,6 +204,56 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/daily-co-phone-numbers-api-openapi.yml
+- aid: daily-co:daily-co-batch-rooms-api
+  name: Daily Batch/rooms API
+  description: The batch/rooms API from Daily — 1 operation(s) for batch/rooms.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - batch/rooms
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-batch-rooms-api-openapi.yml
+- aid: daily-co:daily-co-domain-dialin-config-api
+  name: Daily Domain Dialin Config API
+  description: The domain-dialin-config API from Daily — 2 operation(s) for domain-dialin-config.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - domain-dialin-config
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-domain-dialin-config-api-openapi.yml
+- aid: daily-co:daily-co-logs-api
+  name: Daily Logs API
+  description: The logs API from Daily — 2 operation(s) for logs.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - logs
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-logs-api-openapi.yml
+- aid: daily-co:daily-co-transcript-api
+  name: Daily Transcript API
+  description: The transcript API from Daily — 3 operation(s) for transcript.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - transcript
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-transcript-api-openapi.yml
+- aid: daily-co:daily-co-dial-in-api
+  name: Daily Dial In API
+  description: The Dial In API from Daily — 6 operation(s) for dial in.
+  humanURL: https://docs.daily.co/reference/rest-api
+  baseURL: https://api.daily.co/v1
+  tags:
+  - Dial In
+  properties:
+  - type: OpenAPI
+    url: openapi/daily-co-dial-in-api-openapi.yml
 common:
 - type: CapabilityMap
   url: capabilities/daily-co-capability-edges.yml

@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  title: Daily REST Webhooks API
+  description: REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming, and phone numbers. Authenticated with a Bearer API key.
+  version: 1.0.0
+servers:
+- url: https://api.daily.co/v1
+  description: Daily REST API base URL
+security:
+- bearerAuth: []
+tags:
+- name: Webhooks
+paths:
+  /webhooks:
+    get:
+      tags:
+      - Webhooks
+      summary: List webhooks
+      responses:
+        '200':
+          description: Webhooks
+      operationId: getWebhooks
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Webhooks
+      summary: Register webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                eventTypes:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Created
+      operationId: postWebhooks
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Webhooks
+      summary: Remove webhook
+      responses:
+        '200':
+          description: Deleted
+      operationId: deleteWebhooks
+      x-operation-id-source: derived
+  /webhooks/{uuid}:
+    parameters:
+    - in: path
+      name: uuid
+      required: true
+      schema:
+        type: string
+        format: uuid
+    get:
+      tags:
+      - Webhooks
+      summary: Get webhook details
+      responses:
+        '200':
+          description: Webhook
+      operationId: getWebhooksByUuid
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Webhooks
+      summary: Update webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated
+      operationId: postWebhooksByUuid
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.
