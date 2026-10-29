@@ -1,4 +1,4 @@
-# Daily (daily-co)
+# Daily
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,90 +66,158 @@
 
 Daily provides WebRTC video and audio infrastructure for developers — REST APIs for rooms, recordings, transcripts, meetings, dial-out and Daily Bots / Pipecat Cloud (voice AI agents), plus client SDKs for Web, iOS, Android, React Native and Flutter.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/daily-co/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/daily-co/refs/heads/main/apis.yml)
+**Areas:** Daily · Real-Time · WebRTC · Video · Audio · SDK · Voice AI · Recording · Transcription · Voice
 
-## Tags
+## Daily on APIs.io
 
-- Realtime
-- WebRTC
-- Video
-- Audio
-- SDK
-- Voice AI
-- Recording
-- Transcription
+Everything profiled for Daily is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/daily-co/](https://apis.io/providers/daily-co/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (15)
 
-- **Created:** 2026-05-08
-- **Modified:** 2026-05-08
+- [Daily REST API](https://apis.io/apis/daily-co/rest-api/) — REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out…
+- [Pipecat Cloud (Daily Bots) API](https://apis.io/apis/daily-co/pipecat-cloud/) — REST API and SDKs for deploying and managing voice AI agents built with the open-source Pipecat framework on Daily's infrastructure.
+- [Daily CallTransfer API](https://apis.io/apis/daily-co/daily-co-calltransfer-api/) — The CallTransfer API from Daily — 2 operation(s) for calltransfer.
+- [Daily DialOut API](https://apis.io/apis/daily-co/daily-co-dialout-api/) — The DialOut API from Daily — 3 operation(s) for dialout.
+- [Daily Domain API](https://apis.io/apis/daily-co/daily-co-domain-api/) — The Domain API from Daily — 1 operation(s) for domain.
+- [Daily Meetings API](https://apis.io/apis/daily-co/daily-co-meetings-api/) — The Meetings API from Daily — 3 operation(s) for meetings.
+- [Daily Presence API](https://apis.io/apis/daily-co/daily-co-presence-api/) — The Presence API from Daily — 1 operation(s) for presence.
+- [Daily Recordings API](https://apis.io/apis/daily-co/daily-co-recordings-api/) — The Recordings API from Daily — 6 operation(s) for recordings.
+- [Daily Rooms API](https://apis.io/apis/daily-co/daily-co-rooms-api/) — The Rooms API from Daily — 9 operation(s) for rooms.
+- [Daily Transcription API](https://apis.io/apis/daily-co/daily-co-transcription-api/) — The Transcription API from Daily — 6 operation(s) for transcription.
+- [Daily Webhooks API](https://apis.io/apis/daily-co/daily-co-webhooks-api/) — The Webhooks API from Daily — 2 operation(s) for webhooks.
+- [Daily Dial In API](https://apis.io/apis/daily-co/daily-co-dial-in-api/) — The Dial In API from Daily — 1 operation(s) for dial in.
+- [Daily Live Streaming API](https://apis.io/apis/daily-co/daily-co-live-streaming-api/) — The Live Streaming API from Daily — 3 operation(s) for live streaming.
+- [Daily Meeting Tokens API](https://apis.io/apis/daily-co/daily-co-meeting-tokens-api/) — The Meeting Tokens API from Daily — 2 operation(s) for meeting tokens.
+- [Daily Phone Numbers API](https://apis.io/apis/daily-co/daily-co-phone-numbers-api/) — The Phone Numbers API from Daily — 4 operation(s) for phone numbers.
 
-## APIs
+### Published properties
 
-### Daily REST API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-REST API for managing Daily domains, rooms, meeting tokens, recordings, transcripts, meetings, participants, presence, batch operations, dial-in/dial-out (PSTN/SIP), webhooks, live streaming and Daily Bots sessions. Authenticated with a Bearer API key.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.daily.co/reference/rest-api](https://docs.daily.co/reference/rest-api)
-- **Base URL:** `https://api.daily.co/v1`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Review](https://apis.io/asyncapis/daily-co/review/)
 
-- REST
-- Rooms
-- Recordings
-- Transcripts
-- Meetings
-- Webhooks
-- Dial-Out
-- Live Streaming
+#### GraphQL (1)
 
-#### Properties
+GraphQL schemas.
 
-- [Documentation](https://docs.daily.co/reference/rest-api)
-- [Getting Started](https://docs.daily.co/guides/products/getting-started)
-- [Authentication](https://docs.daily.co/reference/rest-api#authentication)
-- [Webhooks](https://docs.daily.co/reference/rest-api/webhooks)
-- [SDK](https://docs.daily.co/reference)
-- [Postman Collection](collections/daily-co.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/daily-co.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Moved to /providers/daily-co/](https://apis.io/graphqls/daily-co/daily-co-graphql/)
 
-### Pipecat Cloud (Daily Bots) API
+#### Agentic access (1)
 
-REST API and SDKs for deploying and managing voice AI agents built with the open-source Pipecat framework on Daily's infrastructure.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://docs.pipecat.daily.co/](https://docs.pipecat.daily.co/)
-- **Base URL:** `https://api.pipecat.daily.co/`
+- [Daily Co Agentic Access](https://apis.io/agentic-access/daily-co/daily-co-agentic-access/)
 
-#### Tags
+#### Collections (14)
 
-- REST
-- Voice AI
-- Agents
-- Pipecat
+Postman and Open Collection request collections.
 
-#### Properties
+- [Daily REST API](https://apis.io/collections/daily-co/open-daily-co/)
+- [Daily REST CallTransfer API](https://apis.io/collections/daily-co/open-daily-co-calltransfer-api/)
+- [Daily REST CallTransfer DialIn API](https://apis.io/collections/daily-co/open-daily-co-dialin-api/)
+- [Daily REST CallTransfer DialOut API](https://apis.io/collections/daily-co/open-daily-co-dialout-api/)
+- [Daily REST CallTransfer Domain API](https://apis.io/collections/daily-co/open-daily-co-domain-api/)
+- [Daily REST CallTransfer LiveStreaming API](https://apis.io/collections/daily-co/open-daily-co-livestreaming-api/)
+- [Daily REST CallTransfer Meetings API](https://apis.io/collections/daily-co/open-daily-co-meetings-api/)
+- [Daily REST CallTransfer MeetingTokens API](https://apis.io/collections/daily-co/open-daily-co-meetingtokens-api/)
+- [Daily REST CallTransfer PhoneNumbers API](https://apis.io/collections/daily-co/open-daily-co-phonenumbers-api/)
+- [Daily REST CallTransfer Presence API](https://apis.io/collections/daily-co/open-daily-co-presence-api/)
+- [Daily REST CallTransfer Recordings API](https://apis.io/collections/daily-co/open-daily-co-recordings-api/)
+- [Daily REST CallTransfer Rooms API](https://apis.io/collections/daily-co/open-daily-co-rooms-api/)
+- [Daily REST CallTransfer Transcription API](https://apis.io/collections/daily-co/open-daily-co-transcription-api/)
+- [Daily REST CallTransfer Webhooks API](https://apis.io/collections/daily-co/open-daily-co-webhooks-api/)
 
-- [Documentation](https://docs.pipecat.daily.co/)
-- [Source Code](https://github.com/pipecat-ai/pipecat)
-- [Postman Collection](collections/daily-co.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/daily-co.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Security (3)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [LinkedIn](https://www.linkedin.com/company/dailyco)
+- [Daily Co Authentication](https://apis.io/security/daily-co/daily-co-authentication/)
+- [Daily Co Domain Security](https://apis.io/security/daily-co/daily-co-domain-security/)
+- [Daily Co Trust Center](https://apis.io/security/daily-co/daily-co-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Daily Co Plans Pricing](https://apis.io/plans/daily-co/daily-co-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Daily Co Rate Limits](https://apis.io/rate-limits/daily-co/daily-co-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Daily Co Finops](https://apis.io/finops/daily-co/daily-co-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.daily.co/)
 - [Documentation](https://docs.daily.co/)
 - [Pricing](https://www.daily.co/pricing/)
 - [Blog](https://www.daily.co/blog/)
-- [Git Hub](https://github.com/daily-co)
-- [Status Page](https://status.daily.co/)
-- [Plans](plans/daily-co-plans-pricing.yml)
-- [Rate Limits](rate-limits/daily-co-rate-limits.yml)
-- [Fin Ops](finops/daily-co-finops.yml)
-- [Integrations](https://www.daily.co/partners/)
+- [Status](https://status.daily.co/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 47.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 62.5 |
+| Contract governance | 0.0 |
+| Operational transparency | 63.2 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 39.5 |
+
+**Agent readiness 24.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 16.7** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/daily-co/](https://apis.io/providers/daily-co/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Daily: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/daily-co/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
